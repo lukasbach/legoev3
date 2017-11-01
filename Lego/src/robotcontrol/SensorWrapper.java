@@ -3,7 +3,10 @@ package robotcontrol;
 
 import lejos.hardware.sensor.*;
 
-public class SensorThread extends Thread {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class SensorWrapper {
 
     private class SingleValueSensorWrapper {
 
@@ -29,7 +32,7 @@ public class SensorThread extends Thread {
 
     //private float touchLeft, touchRight, color, distance;
 
-    public SensorThread(RobotConfig config) {
+    public SensorWrapper(RobotConfig config) {
         this.leftTouchSensor       = config.leftTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(config.leftTouchSensorPort), "Touch");
         this.rightTouchSensor      = config.rightTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(config.rightTouchSensorPort), "Touch");
         this.colorSensor           = config.colorSensorPort == null ? null : new SingleValueSensorWrapper(new EV3ColorSensor((config.colorSensorPort)), config.colorSensorMode);
