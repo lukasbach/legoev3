@@ -1,19 +1,22 @@
 package robotcontrol;
 
+import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
+import lejos.hardware.port.SensorPort;
 
 public class RobotConfig {
-    public Port leftTouchSensorPort;
-    public Port rightTouchSensorPort;
-    public Port colorSensorPort;
-    public Port ultrasonicSensorPort;
+    public static final Port leftTouchSensorPort = SensorPort.S1;//1
+    public static final Port rightTouchSensorPort = SensorPort.S2; //2
+    public static final Port colorSensorPort = SensorPort.S3; //3
+    public static final Port ultrasonicSensorPort = null;//SensorPort.S4; //4
 
-    public String colorSensorMode;
-    public String ultrasonicSensorMode;
+    public static final String colorSensorMode = "Red";
+    public static final String ultrasonicSensorMode = "Distance";
 
-    public Port leftMotorPort;
-    public Port rightMotorPort;
-    public Port headMptorPort;
+    public static final Port leftMotorPort = MotorPort.B;
+    public static final Port rightMotorPort = MotorPort.C;
+    public static final Port headMotorPort = MotorPort.D;
 
-    public int sensorSampleFrequency = 20;
+    //public static final int sensorSampleFrequency = 20;  
+    
 }

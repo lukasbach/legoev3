@@ -3,9 +3,6 @@ package robotcontrol;
 
 import lejos.hardware.sensor.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class SensorWrapper {
 
     private class SingleValueSensorWrapper {
@@ -32,12 +29,12 @@ public class SensorWrapper {
 
     //private float touchLeft, touchRight, color, distance;
 
-    public SensorWrapper(RobotConfig config) {
-        this.leftTouchSensor       = config.leftTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(config.leftTouchSensorPort), "Touch");
-        this.rightTouchSensor      = config.rightTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(config.rightTouchSensorPort), "Touch");
-        this.colorSensor           = config.colorSensorPort == null ? null : new SingleValueSensorWrapper(new EV3ColorSensor((config.colorSensorPort)), config.colorSensorMode);
-        this.ultrasonicSensor      = config.ultrasonicSensorPort == null ? null : new SingleValueSensorWrapper(new EV3UltrasonicSensor((config.ultrasonicSensorPort)), config.ultrasonicSensorMode);
-        this.sensorSampleFrequency = config.sensorSampleFrequency;
+    public SensorWrapper() {
+        this.leftTouchSensor       = RobotConfig.leftTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.leftTouchSensorPort), "Touch");
+        this.rightTouchSensor      = RobotConfig.rightTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.rightTouchSensorPort), "Touch");
+        this.colorSensor           = RobotConfig.colorSensorPort == null ? null : new SingleValueSensorWrapper(new EV3ColorSensor((RobotConfig.colorSensorPort)), RobotConfig.colorSensorMode);
+        this.ultrasonicSensor      = RobotConfig.ultrasonicSensorPort == null ? null : new SingleValueSensorWrapper(new EV3UltrasonicSensor((RobotConfig.ultrasonicSensorPort)), RobotConfig.ultrasonicSensorMode);
+        //this.sensorSampleFrequency = config.sensorSampleFrequency;
     }
 
     /*public void run() {

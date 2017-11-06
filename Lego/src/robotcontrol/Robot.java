@@ -1,7 +1,6 @@
 package robotcontrol;
 
 public class Robot {
-    private RobotConfig config;
 
     /**
      * This object contains current sample data for all sensors connected
@@ -20,10 +19,9 @@ public class Robot {
      * This class supplies basic control options for the roboter.
      * @param config contains all robot configuration information.
      */
-    public Robot(RobotConfig config) {
-        this.config = config;
-
-        this.sensors = new SensorWrapper(config);
+    public Robot() {
+    	this.motors = new MotorWrapper();
+        this.sensors = new SensorWrapper();
         //this.sensors.start();
     }
 }

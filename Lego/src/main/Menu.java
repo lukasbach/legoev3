@@ -3,6 +3,7 @@ package main;
 import lejos.hardware.Button;
 import lejos.hardware.Key;
 import lejos.hardware.KeyListener;
+import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
 import lejos.utility.TextMenu;
 
@@ -14,7 +15,8 @@ public class Menu {
 	
 	public Menu() {
 		CourseSections startingSection = displayMenu();
-		courseSectionManager = new CourseSectionManager(startingSection);
+		courseSectionManager = new CourseSectionManager(startingSection); //FIX
+		LocalEV3.get().getGraphicsLCD().clear();
 	}
 	
 	/**
@@ -22,6 +24,7 @@ public class Menu {
 	 * @return The starting section selected by the user
 	 */
 	private CourseSections displayMenu() {
+		
 		String [] sectionNames = CourseSections.names();
 		courseSectionMenu = new TextMenu(sectionNames, 1, MENU_TITLE);
 		int selection = courseSectionMenu.select();
@@ -30,9 +33,6 @@ public class Menu {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("Programm loaded. Press any button ...");
-		Button.waitForAnyEvent();
-		
 		Button.ENTER.addKeyListener(new KeyListener() {
 			@Override
 			public void keyReleased(Key k) {}
