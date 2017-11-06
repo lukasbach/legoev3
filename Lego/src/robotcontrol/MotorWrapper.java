@@ -3,7 +3,6 @@ package robotcontrol;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.robotics.BaseMotor;
-import sun.security.krb5.Config;
 
 public class MotorWrapper {
     public BaseMotor leftMotor, rightMotor, headMotor;
