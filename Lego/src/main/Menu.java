@@ -28,6 +28,9 @@ public class Menu {
 		String [] sectionNames = CourseSections.names();
 		courseSectionMenu = new TextMenu(sectionNames, 1, MENU_TITLE);
 		int selection = courseSectionMenu.select();
+		LocalEV3.get().getGraphicsLCD().clear();
+		System.out.println("COURSE SELECTED");
+		
 		//Vll. bissel unsafe
 		return CourseSections.values()[selection];
 	}
