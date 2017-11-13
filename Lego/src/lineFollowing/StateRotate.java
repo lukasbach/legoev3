@@ -46,33 +46,29 @@ public class StateRotate extends State {
 	void run() throws PortNotDefinedException {
 		Thread turning, lineCheck;
 
-		turning = new Thread() {
-			public void run() {
-				pilot.rotate(lastRotationPrefix * ROTATION_TRY_ANGLE);         // Try k° in the first direction
-				lastRotationPrefix = -lastRotationPrefix;
-				pilot.rotate(lastRotationPrefix * (90 + ROTATION_TRY_ANGLE));  // Go back k° to center and try k+60° in the other direction
-				lastRotationPrefix = -lastRotationPrefix;
-				pilot.rotate(lastRotationPrefix * 180);  // Go back 90° to center and try the remaining 90° in the first direction
-				lastRotationPrefix = -lastRotationPrefix;
-				pilot.rotate(lastRotationPrefix * 90);   // Go back 90° to center, end thread
-				stateMachine.changeState(LineFollowing.FORWARD); // Give up (TODO)
-			}
-		}
+		turning = new Thread(() -> {
+			pilot.rotate(lastRotationPrefix * ROTATION_TRY_ANGLE);         // Try k° in the first direction
+			lastRotationPrefix = -lastRotationPrefix;
+			pilot.rotate(lastRotationPrefix * (90 + ROTATION_TRY_ANGLE));  // Go back k° to center and try k+60° in the other direction
+			lastRotationPrefix = -lastRotationPrefix;
+			pilot.rotate(lastRotationPrefix * 180);  // Go back 90° to center and try the remaining 90° in the first direction
+			lastRotationPrefix = -lastRotationPrefix;
+			pilot.rotate(lastRotationPrefix * 90);   // Go back 90° to center, end thread
+			stateMachine.changeState(LineFollowing.FORWARD); // Give up (TODO)
+		});
 
-		lineCheck = new Thread() {
-			public void run() {
-				try {
-					while(robot.sensors.getColor() < .4) {
-						Delay.msDelay(SENSOR_DELAY);
-					}
-					turning.interrupt();
-					pilot.stop();
-					stateMachine.changeState(LineFollowing.FORWARD);
-				} catch (PortNotDefinedException e) {
-					e.printStackTrace();
+		lineCheck = new Thread(() -> {
+			try {
+				while(robot.sensors.getColor() < .4) {
+					Delay.msDelay(SENSOR_DELAY);
 				}
+				turning.interrupt();
+				pilot.stop();
+				stateMachine.changeState(LineFollowing.FORWARD);
+			} catch (PortNotDefinedException e) {
+				e.printStackTrace();
 			}
-		}
+		});
 
 		lineCheck.start();
 		turning.start();
