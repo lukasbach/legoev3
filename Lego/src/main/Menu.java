@@ -29,8 +29,6 @@ public class Menu {
 		courseSectionMenu = new TextMenu(sectionNames, 1, MENU_TITLE);
 		int selection = courseSectionMenu.select();
 		//Vll. bissel unsafe
-		LocalEV3.get().getGraphicsLCD().clear();
-
 		return CourseSections.values()[selection];
 	}
 	
