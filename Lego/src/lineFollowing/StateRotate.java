@@ -5,15 +5,12 @@ import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Move;
 import lejos.robotics.navigation.MoveListener;
 import lejos.robotics.navigation.MoveProvider;
-import lejos.utility.Delay;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
 
 public class StateRotate extends State {
-	private final int ROTATION_TRY_ANGLE = 25;
-	private final int SENSOR_DELAY = 5;
 
-	private int lastRotationPrefix = 1;
+	private boolean lastRotationLeft = false;
 	private boolean secondTry = false;
 	
 	public StateRotate(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
@@ -44,46 +41,7 @@ public class StateRotate extends State {
 
 	@Override
 	void run() throws PortNotDefinedException {
-		Thread turning, lineCheck;
-
-		turning = new Thread() {
-			public void run() {
-				pilot.rotate(lastRotationPrefix * ROTATION_TRY_ANGLE);         // Try k° in the first direction
-				lastRotationPrefix = -lastRotationPrefix;
-				pilot.rotate(lastRotationPrefix * (90 + ROTATION_TRY_ANGLE));  // Go back k° to center and try k+60° in the other direction
-				lastRotationPrefix = -lastRotationPrefix;
-				pilot.rotate(lastRotationPrefix * 180);  // Go back 90° to center and try the remaining 90° in the first direction
-				lastRotationPrefix = -lastRotationPrefix;
-				pilot.rotate(lastRotationPrefix * 90);   // Go back 90° to center, end thread
-				stateMachine.changeState(LineFollowing.FORWARD); // Give up (TODO)
-			}
-		}
-
-		lineCheck = new Thread() {
-			public void run() {
-				try {
-					while(robot.sensors.getColor() < .4) {
-						Delay.msDelay(SENSOR_DELAY);
-					}
-					turning.interrupt();
-					pilot.stop();
-					stateMachine.changeState(LineFollowing.FORWARD);
-				} catch (PortNotDefinedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		lineCheck.start();
-		turning.start();
-
-		try {
-			turning.join();
-			lineCheck.interrupt();
-		} catch (InterruptedException e) { }
-
-
-		/*for (int degree = 0; degree <= 90; degree += 5) {
+		for (int degree = 0; degree <= 90; degree += 5) {
 			//System.out.println("run: " + (robot.sensors.getColor() > .4));
 			if (robot.sensors.getColor() < .4) {
 				if (lastRotationLeft) {
@@ -111,7 +69,7 @@ public class StateRotate extends State {
 			stateMachine.changeState(LineFollowing.FORWARD);
 		}
 		
-		lastRotationLeft = !lastRotationLeft;*/
+		lastRotationLeft = !lastRotationLeft;
 		
 		//pilot.rotate(90);
 		/*System.out.println("run: " + (robot.sensors.getColor() > .4));
