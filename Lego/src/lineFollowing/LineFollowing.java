@@ -10,6 +10,7 @@ public class LineFollowing {
 	public static final int ROTATE = 1;
 	public static final int GAP = 2;
 	
+
 	private DifferentialPilot pilot;
 	private int state;
 	private State[] states = new State[3];
@@ -41,7 +42,7 @@ public class LineFollowing {
 	}
 	
 	public void changeState(int state) {
-		this.states[state].leave();
+		this.states[this.state].leave();
 		this.state = state;
 		this.states[state].init();
 	}

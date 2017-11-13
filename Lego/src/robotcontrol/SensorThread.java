@@ -1,5 +1,6 @@
-package sample;
+package robotcontrol;
 
+import sample.SingleValueSensorWrapper;
 
 public class SensorThread extends Thread {
 

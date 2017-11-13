@@ -5,6 +5,7 @@ import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
+import robotcontrol.SensorThread;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.Button;
 
