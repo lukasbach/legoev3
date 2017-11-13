@@ -29,7 +29,6 @@ public class StateGap extends State {
 		pilot.setAcceleration(4000);
 		pilot.setTravelSpeed(200);
 		pilot.forward();
-		//TODO FIX
 		Delay.msDelay(2500);
 		
 	}
