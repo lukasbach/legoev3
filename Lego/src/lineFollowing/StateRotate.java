@@ -11,7 +11,7 @@ import robotcontrol.Robot;
 
 public class StateRotate extends State {
 	private final int ROTATION_TRY_ANGLE = 25;
-	private final int SENSOR_DELAY = 5;
+	private final int SENSOR_DELAY = 3;
 
 	private int lastRotationPrefix = 1;
 	private boolean secondTry = false;
@@ -22,6 +22,7 @@ public class StateRotate extends State {
 		this.robot = robot;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	void init() {
 		
@@ -30,7 +31,6 @@ public class StateRotate extends State {
 			
 			@Override
 			public void moveStopped(Move event, MoveProvider mp) {
-				System.out.println("move stopped");
 				
 			}
 			
@@ -40,39 +40,53 @@ public class StateRotate extends State {
 				
 			}
 		});
+
+
 	}
 
 	@Override
 	void run() throws PortNotDefinedException {
-		Thread turning, lineCheck;
+		
+		final Thread turning;
+		Thread lineCheck;
 
 		turning = new Thread() {
 			public void run() {
 				pilot.rotate(lastRotationPrefix * ROTATION_TRY_ANGLE);         // Try k° in the first direction
+				if(isInterrupted()) return;
 				lastRotationPrefix = -lastRotationPrefix;
+				//System.out.print("1");
 				pilot.rotate(lastRotationPrefix * (90 + ROTATION_TRY_ANGLE));  // Go back k° to center and try k+60° in the other direction
+				if(isInterrupted()) return;
 				lastRotationPrefix = -lastRotationPrefix;
+				//System.out.print("2");
 				pilot.rotate(lastRotationPrefix * 180);  // Go back 90° to center and try the remaining 90° in the first direction
+				if(isInterrupted()) return;
 				lastRotationPrefix = -lastRotationPrefix;
+				//System.out.print("3");
 				pilot.rotate(lastRotationPrefix * 90);   // Go back 90° to center, end thread
-				stateMachine.changeState(LineFollowing.FORWARD); // Give up (TODO)
+				if(isInterrupted()) return;
+				//stateMachine.changeState(LineFollowing.FORWARD); // Give up (TODO)
+				//System.out.print("done\n");
 			}
-		}
+		};
 
 		lineCheck = new Thread() {
 			public void run() {
 				try {
 					while(robot.sensors.getColor() < .4) {
-						Delay.msDelay(SENSOR_DELAY);
+						//Delay.msDelay(SENSOR_DELAY);
+						//if (isInterrupted()) return;
 					}
+					System.out.print("found");
 					turning.interrupt();
-					pilot.stop();
-					stateMachine.changeState(LineFollowing.FORWARD);
+					//pilot.stop();
+					//stateMachine.changeState(LineFollowing.FORWARD);
 				} catch (PortNotDefinedException e) {
 					e.printStackTrace();
 				}
 			}
-		}
+		};
 
 		lineCheck.start();
 		turning.start();
@@ -80,8 +94,12 @@ public class StateRotate extends State {
 		try {
 			turning.join();
 			lineCheck.interrupt();
-		} catch (InterruptedException e) { }
-
+			pilot.stop();
+			//System.out.println("interrupted");
+		} catch (InterruptedException e) {
+			System.err.println(e.getMessage());
+		}
+		stateMachine.changeState(LineFollowing.FORWARD);
 
 		/*for (int degree = 0; degree <= 90; degree += 5) {
 			//System.out.println("run: " + (robot.sensors.getColor() > .4));
