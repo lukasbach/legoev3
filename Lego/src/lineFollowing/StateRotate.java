@@ -12,11 +12,13 @@ public class StateRotate extends State {
 
 	private boolean lastRotationLeft = false;
 	private boolean secondTry = false;
+	private int angleStep;
 	
 	public StateRotate(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
+		angleStep = 5;
 	}
 	
 	@Override
@@ -41,7 +43,7 @@ public class StateRotate extends State {
 
 	@Override
 	void run() throws PortNotDefinedException {
-		for (int degree = 0; degree <= 90; degree += 5) {
+		for (int degree = 0; degree <= 90; degree += angleStep) {
 			//System.out.println("run: " + (robot.sensors.getColor() > .4));
 			if (robot.sensors.getColor() < .4) {
 				if (lastRotationLeft) {
@@ -55,6 +57,7 @@ public class StateRotate extends State {
 				stateMachine.changeState(LineFollowing.FORWARD);
 				return;
 			}
+			angleStep += 5;
 		}
 		if (lastRotationLeft) {
 			pilot.rotate(-90);
@@ -66,7 +69,7 @@ public class StateRotate extends State {
 		} else {
 			secondTry = false;
 			pilot.stop();
-			stateMachine.changeState(LineFollowing.FORWARD);
+			stateMachine.changeState(LineFollowing.GAP);
 		}
 		
 		lastRotationLeft = !lastRotationLeft;

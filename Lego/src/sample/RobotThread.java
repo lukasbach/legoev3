@@ -60,6 +60,6 @@ public class RobotThread extends Thread {
 	}
 	
 	public void run() {
-		// do something usefull
+		// do something useful
 	}
 }
