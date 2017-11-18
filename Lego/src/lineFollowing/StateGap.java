@@ -7,13 +7,6 @@ import robotcontrol.Robot;
 
 public class StateGap extends State {
 
-	private float intensity = 0;
-	private static int counter = 0;
-	
-	// 0 = right
-	// 1 = left
-	public static int lastTurn = 0;
-	
 	
 	public StateGap(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
@@ -23,11 +16,7 @@ public class StateGap extends State {
 	
 	@Override
 	public void run() throws PortNotDefinedException {
-		intensity = robot.sensors.getColor();
-		if (intensity > 0.4f) {
-			stateMachine.changeState(LineFollowing.FORWARD);
-		}
-		Delay.msDelay(1000);
+		Delay.msDelay(500);
 		pilot.stop();
 		if (tryFind(1)) return;
 		if (tryFind(-1)) return;
@@ -40,11 +29,10 @@ public class StateGap extends State {
 
 	@Override
 	void init() {
-		pilot.rotate(10 * lastTurn);
 		pilot.setAcceleration(4000);
 		pilot.setTravelSpeed(200);
 		pilot.forward();
-		Delay.msDelay(1500);
+		Delay.msDelay(500);
 		
 	}
 	

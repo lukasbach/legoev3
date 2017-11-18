@@ -13,6 +13,8 @@ public class CourseSectionManager {
 	public CourseSectionManager(CourseSections startingSection) {
 		this.currentSection = startingSection;
 		this.robot = new Robot();
+		
+		//for now
 		new LineFollowing(robot);
 	}
 	

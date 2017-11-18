@@ -27,14 +27,10 @@ public class LineFollowing {
 		while (true) {
 			try {
 				states[state].run();
-			} catch (PortNotDefinedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			try {
 				Thread.sleep(20);
+			} catch (PortNotDefinedException e1) {
+				e1.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

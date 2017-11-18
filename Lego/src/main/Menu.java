@@ -3,20 +3,17 @@ package main;
 import lejos.hardware.Button;
 import lejos.hardware.Key;
 import lejos.hardware.KeyListener;
+import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.lcd.LCD;
 import lejos.utility.TextMenu;
 
 public class Menu {
 	public static final String MENU_TITLE = "Pls select Start"; //Max 16 chars.
 	private TextMenu courseSectionMenu;
 	
-	private CourseSectionManager courseSectionManager;
-	
 	public Menu() {
 		CourseSections startingSection = displayMenu();
-		courseSectionManager = new CourseSectionManager(startingSection); //FIX
-		LocalEV3.get().getGraphicsLCD().clear();
+		new CourseSectionManager(startingSection);
 	}
 	
 	/**
@@ -24,16 +21,23 @@ public class Menu {
 	 * @return The starting section selected by the user
 	 */
 	private CourseSections displayMenu() {
-		
 		String [] sectionNames = CourseSections.names();
 		courseSectionMenu = new TextMenu(sectionNames, 1, MENU_TITLE);
 		int selection = courseSectionMenu.select();
-		//Vll. bissel unsafe
+		
+		//DEBUG
+		for (int i = 0; i < selection; i++) {
+			Sound.beep();
+		}
+		
+		
 		LocalEV3.get().getGraphicsLCD().clear();
+		//Vll. bissel unsafe
 		return CourseSections.values()[selection];
 	}
 	
 	public static void main(String[] args) {
+		Sound.beepSequenceUp();
 		Button.ENTER.addKeyListener(new KeyListener() {
 			@Override
 			public void keyReleased(Key k) {}
