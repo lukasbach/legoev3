@@ -28,6 +28,16 @@ public class Menu {
 		//DEBUG
 		for (int i = 0; i < selection; i++) {
 			Sound.beep();
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (selection <= 0 || selection > sectionNames.length) {
+			Sound.beepSequence();
+			throw new InternalError("Menü is immernoch am Arsch");
 		}
 		
 		

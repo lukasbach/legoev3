@@ -2,6 +2,7 @@ package lineFollowing;
 
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
+import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
 
@@ -28,7 +29,7 @@ public class StateForward extends State {
 	}
 
 	@Override
-	void init() {
+	public void init() {
 		Sound.beep();
 		pilot.setAcceleration(ACC);
 		pilot.setTravelSpeed(SPEED);
@@ -36,7 +37,7 @@ public class StateForward extends State {
 	}
 
 	@Override
-	void leave() {
+	public void leave() {
 		pilot.stop();
 	}
 

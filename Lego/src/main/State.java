@@ -1,16 +1,16 @@
-package lineFollowing;
+package main;
 
 import lejos.robotics.navigation.DifferentialPilot;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
 
 public abstract class State {
-	protected LineFollowing stateMachine;
+	protected CourseSectionStateMachine stateMachine;
 	protected DifferentialPilot pilot;
 	protected Robot robot;
 	
-	abstract void init();
-	abstract void run() throws PortNotDefinedException;
-	abstract void leave();
+	public abstract void init();
+	public abstract void run() throws PortNotDefinedException;
+	public abstract void leave();
 	
 }

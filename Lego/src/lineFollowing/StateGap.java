@@ -2,6 +2,7 @@ package lineFollowing;
 
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.utility.Delay;
+import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
 
@@ -28,7 +29,7 @@ public class StateGap extends State {
 	}
 
 	@Override
-	void init() {
+	public void init() {
 		pilot.setAcceleration(4000);
 		pilot.setTravelSpeed(200);
 		pilot.forward();
@@ -54,7 +55,7 @@ public class StateGap extends State {
 	}
 
 	@Override
-	void leave() {
+	public void leave() {
 		pilot.stop();
 	}
 

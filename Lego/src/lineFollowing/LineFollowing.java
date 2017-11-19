@@ -1,47 +1,26 @@
 package lineFollowing;
 
 import lejos.robotics.navigation.DifferentialPilot;
-import robotcontrol.PortNotDefinedException;
+import main.CourseSectionStateMachine;
+import main.State;
 import robotcontrol.Robot;
 
 
-public class LineFollowing {
+public class LineFollowing extends CourseSectionStateMachine {
 	public static final int FORWARD = 0;
 	public static final int ROTATE = 1;
 	public static final int GAP = 2;
 	
-
-	private DifferentialPilot pilot;
-	private int state;
-	private State[] states = new State[3];
 	
-	public LineFollowing(Robot robot) {
-		this.pilot = new DifferentialPilot(30, 160, robot.motors.leftMotor, robot.motors.rightMotor, true);
-		state = 0;
+	public LineFollowing(Robot robot, DifferentialPilot pilot) {
+		super();
+		State[] states = new State[3];
 		states[0] = new StateForward(this, pilot, robot);
 		states[1] = new StateRotate(this, pilot, robot);
 		states[2] = new StateGap(this, pilot, robot);
-		
-		states[state].init();
-
-		while (true) {
-			try {
-				states[state].run();
-				Thread.sleep(20);
-			} catch (PortNotDefinedException e1) {
-				e1.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-			
+		setStates(states);
+		run();
 	}
 	
-	public void changeState(int state) {
-		this.states[this.state].leave();
-		this.state = state;
-		this.states[state].init();
-	}
-
 
 }
