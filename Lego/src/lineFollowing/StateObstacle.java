@@ -42,13 +42,13 @@ public class StateObstacle extends State {
 		float angleToTurn = Math.abs(targetAngle - getAngle());
 		if (angleToTurn < 1) return;
 		
-		pilot.rotate(targetAngle, true);
-		while(true) {
-		if (Math.abs(targetAngle - getAngle()) < 1) {
-			pilot.stop();
-			break;
+		pilot.rotate(targetAngle);
+		/*while(true) {
+			if (Math.abs(targetAngle - getAngle()) < 5) {
+				pilot.stop();
+				break;
 			}
-		}
+		}*/
 	}
 	
 	@Override
@@ -59,13 +59,13 @@ public class StateObstacle extends State {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		turn(-95);
-		drive(800);
-		turn(95);
-		drive(2000);
-		turn(95);
-		drive(800);
-		turn(-95);
+		turn(-90);
+		drive(850);
+		turn(90);
+		drive(1750);
+		turn(90);
+		drive(850);
+		turn(-90);
 		stateMachine.changeState(LineFollowing.ROTATE);
 	}
 
