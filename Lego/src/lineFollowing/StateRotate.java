@@ -10,8 +10,8 @@ import robotcontrol.Robot;
 
 public class StateRotate extends State {
 
-	private static int SEARCH_SPEED = 40;
-	private static int FAST_SPEED = 200;
+	private static int SEARCH_SPEED = 35;
+	private static int FAST_SPEED = 80;
 
 	// TODO: Move to robot
 	private EV3GyroSensor gyro;
@@ -50,12 +50,12 @@ public class StateRotate extends State {
 	}
 
 	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
-		if (targetAngle == -90) {
+		if (targetAngle < -80) {
 			lastRotationLeft = false;
-		} else if (targetAngle == 90) {
+		} else if (targetAngle > 80) {
 			lastRotationLeft = true; 
 		}
-		System.out.println("Starting turnAndSearch, target: " + targetAngle);
+		System.out.println(lastRotationLeft);
 		float angleToTurn = Math.abs(targetAngle - getAngle());
 		
 		
@@ -77,7 +77,7 @@ public class StateRotate extends State {
 		while (true) {
 			//System.out.println("getAngle:" + getAngle() + "");
 			// Proportional turning speed (no overshooting)
-			// pilot.setRotateSpeed(targetAngle - getAngle());
+			//pilot.setRotateSpeed(targetAngle - getAngle());
 
 			if (robot.sensors.getColor() > .4) {
 				pilot.stop();
@@ -85,7 +85,7 @@ public class StateRotate extends State {
 				return true;
 			}
 
-			if (Math.abs(targetAngle - getAngle()) < 1) {
+			if (Math.abs(targetAngle - getAngle()) < 3) {
 				pilot.stop();
 				break;
 			}
