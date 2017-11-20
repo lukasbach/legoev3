@@ -5,7 +5,7 @@ import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
 
 public class RobotConfig {
-    public static final Port leftTouchSensorPort = SensorPort.S2;//1
+ //   public static final Port leftTouchSensorPort = SensorPort.S2;//1
     //public static final Port rightTouchSensorPort = SensorPort.S4; //2
     public static final Port colorSensorPort = SensorPort.S3; //3
     public static final Port ultrasonicSensorPort = SensorPort.S1;//SensorPort.S4; //4
