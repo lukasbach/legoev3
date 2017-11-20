@@ -14,16 +14,12 @@ public class StateRotate extends State {
 	private static int FAST_SPEED = 80;
 
 	// TODO: Move to robot
-	private EV3GyroSensor gyro;
-	private final SampleProvider sp;
 	private boolean lastRotationLeft = true;
 
 	public StateRotate(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
-		gyro = new EV3GyroSensor(SensorPort.S4);
-		sp = gyro.getAngleMode();
 	}
 
 	@Override
@@ -31,7 +27,12 @@ public class StateRotate extends State {
 
 		// Resetting Gyro angles. Robot needs to be stationary for that.
 		pilot.stop();
-		gyro.reset();
+		try {
+			robot.sensors.gyroReset();
+		} catch (PortNotDefinedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -43,10 +44,8 @@ public class StateRotate extends State {
 	 * false; }
 	 */
 
-	private float getAngle() {
-		float[] sample = new float[sp.sampleSize()];
-		sp.fetchSample(sample, 0);
-		return sample[0];
+	private float getAngle() throws PortNotDefinedException {
+		return this.robot.sensors.getGyro();
 	}
 
 	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {

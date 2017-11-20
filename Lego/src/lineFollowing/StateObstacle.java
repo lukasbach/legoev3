@@ -13,15 +13,11 @@ public class StateObstacle extends State {
 	private static int ACC = 4000;
 	private static int SPEED = 200;
 	//TODO: move to robot
-	private EV3GyroSensor gyro;
-	private final SampleProvider sp;
 	
 	public StateObstacle(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
-		gyro = new EV3GyroSensor(SensorPort.S4);
-		sp = gyro.getAngleMode();
 	}
 	
 	private void drive(int timeMS) {
@@ -33,9 +29,13 @@ public class StateObstacle extends State {
 	}
 	
 	private float getAngle() {
-		float[] sample = new float[sp.sampleSize()];
-		sp.fetchSample(sample, 0);
-		return sample[0];
+		try {
+			return this.robot.sensors.getGyro();
+		} catch (PortNotDefinedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
 	}
 	
 	private void turn(int targetAngle) {
@@ -53,7 +53,12 @@ public class StateObstacle extends State {
 	
 	@Override
 	public void init() {
-		gyro.reset();
+		try {
+			this.robot.sensors.gyroReset();
+		} catch (PortNotDefinedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		turn(-95);
 		drive(800);
 		turn(95);

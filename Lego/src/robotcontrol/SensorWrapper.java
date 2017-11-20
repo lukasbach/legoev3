@@ -25,6 +25,8 @@ public class SensorWrapper {
     private SingleValueSensorWrapper rightTouchSensor;
     private SingleValueSensorWrapper colorSensor;
     private SingleValueSensorWrapper ultrasonicSensor;
+    private EV3GyroSensor gyroSensor;
+    private SingleValueSensorWrapper gyroSensorWrapper;
     private int sensorSampleFrequency;
 
     //private float touchLeft, touchRight, color, distance;
@@ -34,7 +36,13 @@ public class SensorWrapper {
         //this.rightTouchSensor      = RobotConfig.rightTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.rightTouchSensorPort), "Touch");
         this.colorSensor           = RobotConfig.colorSensorPort == null ? null : new SingleValueSensorWrapper(new EV3ColorSensor((RobotConfig.colorSensorPort)), RobotConfig.colorSensorMode);
         this.ultrasonicSensor      = RobotConfig.ultrasonicSensorPort == null ? null : new SingleValueSensorWrapper(new EV3UltrasonicSensor((RobotConfig.ultrasonicSensorPort)), RobotConfig.ultrasonicSensorMode);
+        this.gyroSensor		       = RobotConfig.gyroPort == null ? null : new EV3GyroSensor(RobotConfig.gyroPort);
+        this.gyroSensorWrapper     = RobotConfig.gyroPort == null ? null : new SingleValueSensorWrapper(this.gyroSensor, "Angle");
         //this.sensorSampleFrequency = config.sensorSampleFrequency;
+    }
+    
+    public void reset() {
+    	
     }
 
     /*public void run() {
@@ -118,4 +126,21 @@ public class SensorWrapper {
             throw new PortNotDefinedException("Ultrasonic sensor is being accessed, but not defined.");
         }
     }
+    
+    public float getGyro() throws PortNotDefinedException {
+        if (this.gyroSensor != null) {
+            return this.gyroSensorWrapper.getSample();
+        } else {
+            throw new PortNotDefinedException("Gyroscope sensor is being accessed, but not defined.");
+        }
+    }
+    
+    public void gyroReset() throws PortNotDefinedException {
+    	if (this.gyroSensor != null) {
+			this.gyroSensor.reset();
+    	} else {     
+    		throw new PortNotDefinedException("Gyroscope sensor is being accessed, but not defined.");
+    	}
+        
+    	}
 }

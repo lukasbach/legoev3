@@ -9,6 +9,7 @@ public class RobotConfig {
     //public static final Port rightTouchSensorPort = SensorPort.S4; //2
     public static final Port colorSensorPort = SensorPort.S3; //3
     public static final Port ultrasonicSensorPort = SensorPort.S1;//SensorPort.S4; //4
+    public static final Port gyroPort = SensorPort.S4;
 
     public static final String colorSensorMode = "Red";
     public static final String ultrasonicSensorMode = "Distance";
