@@ -1,6 +1,7 @@
 package main;
 
 import bridgeCrossing.BridgeCrossing;
+import labyrinth.Labyrinth;
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import lineFollowing.LineFollowing;
@@ -27,7 +28,7 @@ public class CourseSectionManager {
 			break;
 		
 		case LABYRINTH:
-			//TODO
+			new Labyrinth(robot, pilot);
 			break;
 			
 		default:
