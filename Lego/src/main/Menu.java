@@ -35,7 +35,7 @@ public class Menu {
 				e.printStackTrace();
 			}
 		}
-		if (selection <= 0 || selection > sectionNames.length) {
+		if (selection < 0 || selection >= sectionNames.length) {
 			Sound.beepSequence();
 			throw new InternalError("Menü is immernoch am Arsch");
 		}
@@ -48,12 +48,13 @@ public class Menu {
 	
 	public static void main(String[] args) {
 		Sound.beepSequenceUp();
-		Button.ENTER.addKeyListener(new KeyListener() {
+		Button.ESCAPE.addKeyListener(new KeyListener() {
 			@Override
 			public void keyReleased(Key k) {}
 			
 			@Override
 			public void keyPressed(Key k) {
+				Sound.beepSequence();
 				System.exit(0);
 			}
 		});
