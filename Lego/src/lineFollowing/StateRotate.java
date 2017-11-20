@@ -10,13 +10,13 @@ import robotcontrol.Robot;
 
 public class StateRotate extends State {
 
-	private static int SEARCH_SPEED = 40;
-	private static int FAST_SPEED = 200;
+	private static int SEARCH_SPEED = 35;
+	private static int FAST_SPEED = 80;
 
 	// TODO: Move to robot
 	private EV3GyroSensor gyro;
-
 	private final SampleProvider sp;
+	private boolean lastRotationLeft = true;
 
 	public StateRotate(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
@@ -50,17 +50,23 @@ public class StateRotate extends State {
 	}
 
 	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
+		if (targetAngle < -80) {
+			lastRotationLeft = false;
+		} else if (targetAngle > 80) {
+			lastRotationLeft = true; 
+		}
+		System.out.println(lastRotationLeft);
 		float angleToTurn = Math.abs(targetAngle - getAngle());
 		
 		
-		if (angleToTurn < 1) {
-			return false;
-		}
+		//if (angleToTurn < 1) {
+		//	return false;
+		//}
 		pilot.setRotateSpeed(speed);
 
 		int direction = 1;
 		//TODO: maybe switch values
-		if (getAngle() - targetAngle < 0) {
+		if (targetAngle - getAngle() > 0) {
 			direction = 1;
 		} else {
 			direction = -1;
@@ -69,9 +75,9 @@ public class StateRotate extends State {
 		pilot.rotate(direction * (angleToTurn + 30), true); // Make sure to turn AT LEAST angleToTurn °
 
 		while (true) {
-			System.out.println("getAngle:" + getAngle() + "");
+			//System.out.println("getAngle:" + getAngle() + "");
 			// Proportional turning speed (no overshooting)
-			// pilot.setRotateSpeed(targetAngle - getAngle());
+			//pilot.setRotateSpeed(targetAngle - getAngle());
 
 			if (robot.sensors.getColor() > .4) {
 				pilot.stop();
@@ -79,7 +85,7 @@ public class StateRotate extends State {
 				return true;
 			}
 
-			if (Math.abs(targetAngle - getAngle()) < 1) {
+			if (Math.abs(targetAngle - getAngle()) < 3) {
 				pilot.stop();
 				break;
 			}
@@ -90,11 +96,19 @@ public class StateRotate extends State {
 
 	@Override
 	public void run() throws PortNotDefinedException {
-
-		if (turnAndSearch(SEARCH_SPEED, 90)) return;
-		if (turnAndSearch(FAST_SPEED, 0)) return;
-		if (turnAndSearch(SEARCH_SPEED, -90)) return;
-		if (turnAndSearch(FAST_SPEED, 0)) return;
+		
+		if (lastRotationLeft) {
+			if (turnAndSearch(SEARCH_SPEED, 90)) return;
+			if (turnAndSearch(FAST_SPEED, 0)) return;
+			if (turnAndSearch(SEARCH_SPEED, -90)) return;
+			if (turnAndSearch(FAST_SPEED, 0)) return;
+		} else {
+			if (turnAndSearch(SEARCH_SPEED, -90)) return;
+			if (turnAndSearch(FAST_SPEED, 0)) return;
+			if (turnAndSearch(SEARCH_SPEED, 90)) return;
+			if (turnAndSearch(FAST_SPEED, 0)) return;
+		}
+		
 		
 		// StateGap.lastTurn = direction;
 		stateMachine.changeState(LineFollowing.GAP);

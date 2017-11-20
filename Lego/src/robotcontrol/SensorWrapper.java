@@ -30,7 +30,7 @@ public class SensorWrapper {
     //private float touchLeft, touchRight, color, distance;
 
     public SensorWrapper() {
-   //     this.leftTouchSensor       = RobotConfig.leftTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.leftTouchSensorPort), "Touch");
+        //this.leftTouchSensor       = RobotConfig.leftTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.leftTouchSensorPort), "Touch");
         //this.rightTouchSensor      = RobotConfig.rightTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.rightTouchSensorPort), "Touch");
         this.colorSensor           = RobotConfig.colorSensorPort == null ? null : new SingleValueSensorWrapper(new EV3ColorSensor((RobotConfig.colorSensorPort)), RobotConfig.colorSensorMode);
         this.ultrasonicSensor      = RobotConfig.ultrasonicSensorPort == null ? null : new SingleValueSensorWrapper(new EV3UltrasonicSensor((RobotConfig.ultrasonicSensorPort)), RobotConfig.ultrasonicSensorMode);

@@ -15,7 +15,7 @@ public class LineFollowing extends CourseSectionStateMachine {
 	
 	public LineFollowing(Robot robot, DifferentialPilot pilot) {
 		super();
-		State[] states = new State[3];
+		State[] states = new State[4];
 		states[0] = new StateForward(this, pilot, robot);
 		states[1] = new StateRotate(this, pilot, robot);
 		states[2] = new StateGap(this, pilot, robot);
