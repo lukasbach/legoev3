@@ -60,11 +60,11 @@ public class StateObstacle extends State {
 			e.printStackTrace();
 		}
 		turn(-90);
-		drive(850);
+		drive(820);
 		turn(90);
 		drive(1750);
 		turn(90);
-		drive(850);
+		drive(820);
 		turn(-90);
 		stateMachine.changeState(LineFollowing.ROTATE);
 	}
