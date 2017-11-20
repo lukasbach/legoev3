@@ -19,6 +19,11 @@ public class SensorWrapper {
             mode.fetchSample(samples, 0);
             return samples[0];
         }
+        
+        float[] getSamples() {
+        	mode.fetchSample(samples, 0);
+        	return samples;
+        }
     }
 
     private SingleValueSensorWrapper leftTouchSensor;
