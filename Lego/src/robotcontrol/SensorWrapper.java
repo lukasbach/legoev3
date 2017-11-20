@@ -117,6 +117,14 @@ public class SensorWrapper {
             throw new PortNotDefinedException("Color sensor is being accessed, but not defined.");
         }
     }
+    
+    public float[] getColors() throws PortNotDefinedException {
+        if (this.colorSensor != null) {
+            return this.colorSensor.getSamples();
+        } else {
+            throw new PortNotDefinedException("Color sensor is being accessed, but not defined.");
+        }
+    }
 
     /**
      * Get a sample of the defined sensor.
