@@ -48,12 +48,13 @@ public class Menu {
 	
 	public static void main(String[] args) {
 		Sound.beepSequenceUp();
-		Button.ENTER.addKeyListener(new KeyListener() {
+		Button.ESCAPE.addKeyListener(new KeyListener() {
 			@Override
 			public void keyReleased(Key k) {}
 			
 			@Override
 			public void keyPressed(Key k) {
+				Sound.beepSequence();
 				System.exit(0);
 			}
 		});

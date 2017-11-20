@@ -51,6 +51,8 @@ public class StateRotate extends State {
 
 	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
 		float angleToTurn = Math.abs(targetAngle - getAngle());
+		
+		
 		if (angleToTurn < 1) {
 			return false;
 		}
@@ -67,6 +69,7 @@ public class StateRotate extends State {
 		pilot.rotate(direction * (angleToTurn + 30), true); // Make sure to turn AT LEAST angleToTurn °
 
 		while (true) {
+			System.out.println("getAngle:" + getAngle() + "");
 			// Proportional turning speed (no overshooting)
 			// pilot.setRotateSpeed(targetAngle - getAngle());
 
@@ -76,7 +79,7 @@ public class StateRotate extends State {
 				return true;
 			}
 
-			if (targetAngle - getAngle() < 1) {
+			if (Math.abs(targetAngle - getAngle()) < 1) {
 				pilot.stop();
 				break;
 			}
