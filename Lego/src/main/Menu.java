@@ -35,7 +35,7 @@ public class Menu {
 				e.printStackTrace();
 			}
 		}
-		if (selection <= 0 || selection > sectionNames.length) {
+		if (selection < 0 || selection >= sectionNames.length) {
 			Sound.beepSequence();
 			throw new InternalError("Menü is immernoch am Arsch");
 		}

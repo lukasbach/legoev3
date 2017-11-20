@@ -22,8 +22,8 @@ public class StateRotate extends State {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
-		gyro = new EV3GyroSensor(SensorPort.S2);
-		sp = gyro.getAngleAndRateMode();
+		gyro = new EV3GyroSensor(SensorPort.S4);
+		sp = gyro.getAngleMode();
 	}
 
 	@Override
@@ -49,10 +49,10 @@ public class StateRotate extends State {
 		return sample[0];
 	}
 
-	private void turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
+	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
 		float angleToTurn = Math.abs(targetAngle - getAngle());
 		if (angleToTurn < 1) {
-			return;
+			return false;
 		}
 		pilot.setRotateSpeed(speed);
 
@@ -64,7 +64,7 @@ public class StateRotate extends State {
 			direction = -1;
 		}
 
-		pilot.rotate(direction * (angleToTurn + 30)); // Make sure to turn AT LEAST angleToTurn °
+		pilot.rotate(direction * (angleToTurn + 30), true); // Make sure to turn AT LEAST angleToTurn °
 
 		while (true) {
 			// Proportional turning speed (no overshooting)
@@ -73,6 +73,7 @@ public class StateRotate extends State {
 			if (robot.sensors.getColor() > .4) {
 				pilot.stop();
 				stateMachine.changeState(LineFollowing.FORWARD);
+				return true;
 			}
 
 			if (targetAngle - getAngle() < 1) {
@@ -80,16 +81,17 @@ public class StateRotate extends State {
 				break;
 			}
 		}
-
+		
+		return false;
 	}
 
 	@Override
 	public void run() throws PortNotDefinedException {
 
-		turnAndSearch(SEARCH_SPEED, 90);
-		turnAndSearch(FAST_SPEED, 0);
-		turnAndSearch(SEARCH_SPEED, -90);
-		turnAndSearch(FAST_SPEED, 0);
+		if (turnAndSearch(SEARCH_SPEED, 90)) return;
+		if (turnAndSearch(FAST_SPEED, 0)) return;
+		if (turnAndSearch(SEARCH_SPEED, -90)) return;
+		if (turnAndSearch(FAST_SPEED, 0)) return;
 		
 		// StateGap.lastTurn = direction;
 		stateMachine.changeState(LineFollowing.GAP);

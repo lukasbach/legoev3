@@ -2,5 +2,10 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path=""/>
+	<classpathentry kind="lib" path="C:/Program Files/leJOS EV3/lib/ev3/ev3classes.jar" sourcepath="C:/Program Files/leJOS EV3/lib/ev3/ev3classes-src.zip">
+		<accessrules>
+			<accessrule kind="discouraged" pattern="**/internal/**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="output" path=""/>
 </classpath>
