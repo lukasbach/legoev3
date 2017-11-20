@@ -12,7 +12,7 @@ public class BridgeCrossing extends CourseSectionStateMachine {
 	
 	public BridgeCrossing(Robot robot, DifferentialPilot pilot) {
 		super();
-		State[] states = new State[3];
+		State[] states = new State[1];
 		states[0] = new StateDriveUp(this, pilot, robot); 
 		//states[1] = 
 		//states[2] = 

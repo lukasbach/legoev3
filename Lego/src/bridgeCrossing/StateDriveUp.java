@@ -9,6 +9,8 @@ import robotcontrol.Robot;
 
 public class StateDriveUp extends State {
 
+	private static int ACC = 4000;
+	private static int SPEED = 200;
 	private float intensity = 0;
 	
 	public StateDriveUp(BridgeCrossing stateMachine, DifferentialPilot pilot, Robot robot) {
@@ -19,8 +21,14 @@ public class StateDriveUp extends State {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		
+		Sound.twoBeeps();
+		Sound.twoBeeps();
+		Sound.twoBeeps();
+		Sound.twoBeeps();
+		Sound.twoBeeps();
+		pilot.setAcceleration(ACC);
+		pilot.setTravelSpeed(SPEED);
+		pilot.forward();		
 	}
 
 	@Override
@@ -28,7 +36,7 @@ public class StateDriveUp extends State {
 		intensity = robot.sensors.getColor();
 		
 		//sensor sees black
-		if (intensity > 0.4f) {
+		if (intensity > 0.6f) {
 			Sound.beepSequence();
 		}
 		
@@ -36,8 +44,7 @@ public class StateDriveUp extends State {
 	
 	@Override
 	public void leave() {
-		// TODO Auto-generated method stub
-		
+		pilot.stop();
 	}
 
 }
