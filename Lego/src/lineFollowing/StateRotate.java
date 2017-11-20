@@ -15,8 +15,8 @@ public class StateRotate extends State {
 
 	// TODO: Move to robot
 	private EV3GyroSensor gyro;
-
 	private final SampleProvider sp;
+	private boolean lastRotationLeft = true;
 
 	public StateRotate(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
@@ -50,6 +50,11 @@ public class StateRotate extends State {
 	}
 
 	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
+		if (targetAngle == -90) {
+			lastRotationLeft = false;
+		} else if (targetAngle == 90) {
+			lastRotationLeft = true; 
+		}
 		System.out.println("Starting turnAndSearch, target: " + targetAngle);
 		float angleToTurn = Math.abs(targetAngle - getAngle());
 		
@@ -91,11 +96,19 @@ public class StateRotate extends State {
 
 	@Override
 	public void run() throws PortNotDefinedException {
-
-		if (turnAndSearch(SEARCH_SPEED, 90)) return;
-		if (turnAndSearch(FAST_SPEED, 0)) return;
-		if (turnAndSearch(SEARCH_SPEED, -90)) return;
-		if (turnAndSearch(FAST_SPEED, 0)) return;
+		
+		if (lastRotationLeft) {
+			if (turnAndSearch(SEARCH_SPEED, 90)) return;
+			if (turnAndSearch(FAST_SPEED, 0)) return;
+			if (turnAndSearch(SEARCH_SPEED, -90)) return;
+			if (turnAndSearch(FAST_SPEED, 0)) return;
+		} else {
+			if (turnAndSearch(SEARCH_SPEED, -90)) return;
+			if (turnAndSearch(FAST_SPEED, 0)) return;
+			if (turnAndSearch(SEARCH_SPEED, 90)) return;
+			if (turnAndSearch(FAST_SPEED, 0)) return;
+		}
+		
 		
 		// StateGap.lastTurn = direction;
 		stateMachine.changeState(LineFollowing.GAP);
