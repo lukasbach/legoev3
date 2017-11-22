@@ -8,13 +8,13 @@ import robotcontrol.Robot;
 
 public class StateObstacle extends State {
 
-	@SuppressWarnings( "deprecation" )
+	@SuppressWarnings("deprecation")
 	StateObstacle(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
 	}
-	
+
 	private void drive(int timeMS) {
 		pilot.setTravelSpeed(StateForward.MOVE_SPEED);
 		pilot.setAcceleration(StateForward.MOVE_ACCELERATION);
@@ -22,7 +22,7 @@ public class StateObstacle extends State {
 		Delay.msDelay(timeMS);
 		pilot.stop();
 	}
-	
+
 	private void turn(int targetAngle) throws PortNotDefinedException {
 		float angleToTurn = Math.abs(targetAngle - this.robot.sensors.getGyro());
 		if (angleToTurn < StateRotate.STOPPING_ANGLE_EPS) return;
@@ -30,14 +30,14 @@ public class StateObstacle extends State {
 		// TODO Busy waiting didn't work previously here. If problems still occur, immediateReturn can be set to false
 		// TODO in pilot.rotate and the while loop can be removed, that did work in the past.
 		pilot.rotate(targetAngle, true);
-		while(true) {
+		while (true) {
 			if (Math.abs(targetAngle - this.robot.sensors.getGyro()) < StateRotate.STOPPING_ANGLE_EPS) {
 				pilot.stop();
 				break;
 			}
 		}
 	}
-	
+
 	@Override
 	public void init() {
 		try {

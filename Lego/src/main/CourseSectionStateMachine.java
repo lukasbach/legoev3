@@ -7,13 +7,13 @@ public class CourseSectionStateMachine {
 	 * Delay between calling the run method on the current state.
 	 */
 	private final static int STATE_RUN_DELAY = 20; //ms
-	
+
 	private int state = 0;
 	private State[] states;
-	
+
 	protected CourseSectionStateMachine() {
 	}
-	
+
 	protected void run() {
 		states[state].init();
 
@@ -27,9 +27,9 @@ public class CourseSectionStateMachine {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	public void changeState(int state) {
 		this.states[this.state].leave();
 		this.state = state;
@@ -42,9 +42,6 @@ public class CourseSectionStateMachine {
 		}
 		this.states = states;
 	}
-	
-	
-	
-	
-	
+
+
 }

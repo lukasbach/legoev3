@@ -1,8 +1,5 @@
 package lineFollowing;
 
-import lejos.hardware.port.SensorPort;
-import lejos.hardware.sensor.EV3GyroSensor;
-import lejos.robotics.SampleProvider;
 import lejos.robotics.navigation.DifferentialPilot;
 import main.State;
 import robotcontrol.PortNotDefinedException;
@@ -21,7 +18,7 @@ public class StateRotate extends State {
 	private boolean lastRotationLeft = true;
 	private float rotationDirection = 1;
 
-	@SuppressWarnings( "deprecation" )
+	@SuppressWarnings("deprecation")
 	StateRotate(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;

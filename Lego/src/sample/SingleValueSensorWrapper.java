@@ -12,12 +12,11 @@ public class SingleValueSensorWrapper {
 		this.mode = sensor.getMode(mode);
 		this.samples = new float[this.mode.sampleSize()];
 	}
-	
-	public float getSample()
-	{
+
+	public float getSample() {
 		mode.fetchSample(samples, 0);
 		return samples[0];
 	}
-	
+
 
 }

@@ -11,7 +11,7 @@ public class LineFollowing extends CourseSectionStateMachine {
 	public static final int ROTATE = 1;
 	public static final int GAP = 2;
 	public static final int OBSTACLE = 3;
-	
+
 	public LineFollowing(Robot robot, DifferentialPilot pilot) {
 		super();
 		State[] states = new State[4];
@@ -22,6 +22,6 @@ public class LineFollowing extends CourseSectionStateMachine {
 		setStates(states);
 		run();
 	}
-	
+
 
 }

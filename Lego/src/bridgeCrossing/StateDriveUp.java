@@ -12,7 +12,7 @@ public class StateDriveUp extends State {
 	private static int MOVE_ACCELERATION = 4000;
 	private static int MOVE_SPEED = 200;
 
-	@SuppressWarnings( "deprecation" )
+	@SuppressWarnings("deprecation")
 	public StateDriveUp(BridgeCrossing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
@@ -28,7 +28,7 @@ public class StateDriveUp extends State {
 		Sound.twoBeeps();
 		pilot.setAcceleration(MOVE_ACCELERATION);
 		pilot.setTravelSpeed(MOVE_SPEED);
-		pilot.forward();		
+		pilot.forward();
 	}
 
 	@Override
@@ -37,9 +37,9 @@ public class StateDriveUp extends State {
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_GROUND) {
 			Sound.beepSequence();
 		}
-		
+
 	}
-	
+
 	@Override
 	public void leave() {
 		pilot.stop();
