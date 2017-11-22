@@ -3,9 +3,10 @@ package main;
 import robotcontrol.PortNotDefinedException;
 
 public class CourseSectionStateMachine {
-
-	private int DELAY = 20; //ms
-	
+	/**
+	 * Delay between calling the run method on the current state.
+	 */
+	private final static int STATE_RUN_DELAY = 20; //ms
 	
 	private int state = 0;
 	private State[] states;
@@ -19,7 +20,7 @@ public class CourseSectionStateMachine {
 		while (true) {
 			try {
 				states[state].run();
-				Thread.sleep(DELAY);
+				Thread.sleep(STATE_RUN_DELAY);
 			} catch (PortNotDefinedException e1) {
 				e1.printStackTrace();
 			} catch (InterruptedException e) {

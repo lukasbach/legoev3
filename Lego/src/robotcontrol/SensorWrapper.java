@@ -4,50 +4,65 @@ package robotcontrol;
 import lejos.hardware.sensor.*;
 
 public class SensorWrapper {
+    public static final int COLOR_ID_RED = 0; // normally 0=none
+    public static final int COLOR_ID_BLUE = 2;
+    public static final int COLOR_ID_GROUND = 7; // 7=brown
+    public static final int COLOR_ID_LINE = 6; //7 6=white
 
-    private class SingleValueSensorWrapper {
-
+    private class MultiSensorWrapper {
+        protected BaseSensor sensor;
         private SensorMode mode;
         private float[] samples;
 
-        SingleValueSensorWrapper(BaseSensor sensor, String mode) {
+        MultiSensorWrapper(BaseSensor sensor, String mode) {
+            this.sensor = sensor;
             this.mode = sensor.getMode(mode);
             this.samples = new float[this.mode.sampleSize()];
         }
 
-        float getSample() {
-            mode.fetchSample(samples, 0);
-            return samples[0];
-        }
-        
         float[] getSamples() {
-        	mode.fetchSample(samples, 0);
-        	return samples;
+            mode.fetchSample(samples, 0);
+            return samples;
         }
     }
 
-    private SingleValueSensorWrapper leftTouchSensor;
-    private SingleValueSensorWrapper rightTouchSensor;
+    private class SingleValueSensorWrapper extends MultiSensorWrapper {
+        SingleValueSensorWrapper(BaseSensor sensor, String mode) {
+            super(sensor, mode);
+        }
+
+        float getSample() {
+            return super.getSamples()[0];
+        }
+    }
+
+    private class gyroSensorWrapper extends SingleValueSensorWrapper {
+        gyroSensorWrapper(BaseSensor sensor, String mode) {
+            super(sensor, mode);
+        }
+
+        void reset() {
+            ((EV3GyroSensor) this.sensor).reset();
+        }
+    }
+
+    private SingleValueSensorWrapper touchSensor;
     private SingleValueSensorWrapper colorSensor;
     private SingleValueSensorWrapper ultrasonicSensor;
-    private EV3GyroSensor gyroSensor;
-    private SingleValueSensorWrapper gyroSensorWrapper;
+    private gyroSensorWrapper gyroSensor;
     private int sensorSampleFrequency;
 
     //private float touchLeft, touchRight, color, distance;
 
     public SensorWrapper() {
-        //this.leftTouchSensor       = RobotConfig.leftTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.leftTouchSensorPort), "Touch");
-        //this.rightTouchSensor      = RobotConfig.rightTouchSensorPort == null ? null : new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.rightTouchSensorPort), "Touch");
-        this.colorSensor           = RobotConfig.colorSensorPort == null ? null : new SingleValueSensorWrapper(new EV3ColorSensor((RobotConfig.colorSensorPort)), RobotConfig.colorSensorMode);
-        this.ultrasonicSensor      = RobotConfig.ultrasonicSensorPort == null ? null : new SingleValueSensorWrapper(new EV3UltrasonicSensor((RobotConfig.ultrasonicSensorPort)), RobotConfig.ultrasonicSensorMode);
-        this.gyroSensor		       = RobotConfig.gyroPort == null ? null : new EV3GyroSensor(RobotConfig.gyroPort);
-        this.gyroSensorWrapper     = RobotConfig.gyroPort == null ? null : new SingleValueSensorWrapper(this.gyroSensor, "Angle");
-        //this.sensorSampleFrequency = config.sensorSampleFrequency;
-    }
-    
-    public void reset() {
-    	
+        this.touchSensor = RobotConfig.touchSensorPort == null ? null :
+                new SingleValueSensorWrapper(new EV3TouchSensor(RobotConfig.touchSensorPort), "Touch");
+        this.colorSensor = RobotConfig.colorSensorPort == null ? null :
+                new SingleValueSensorWrapper(new EV3ColorSensor(RobotConfig.colorSensorPort), RobotConfig.colorSensorMode);
+        this.ultrasonicSensor = RobotConfig.ultrasonicSensorPort == null ? null :
+                new SingleValueSensorWrapper(new EV3UltrasonicSensor(RobotConfig.ultrasonicSensorPort), RobotConfig.ultrasonicSensorMode);
+        this.gyroSensor = RobotConfig.gyroPort == null ? null :
+                new gyroSensorWrapper(new EV3GyroSensor(RobotConfig.gyroPort), RobotConfig.gyroSensorMode);
     }
 
     /*public void run() {
@@ -82,25 +97,11 @@ public class SensorWrapper {
      * @throws PortNotDefinedException if the port of the accessed device is not defined in the roboter
      * config object.
      */
-    public float getTouchLeft() throws PortNotDefinedException {
-        if (this.leftTouchSensor != null) {
-            return this.leftTouchSensor.getSample();
+    public float getTouch() throws PortNotDefinedException {
+        if (this.touchSensor != null) {
+            return this.touchSensor.getSample();
         } else {
-            throw new PortNotDefinedException("Left touch sensor is being accessed, but not defined.");
-        }
-    }
-
-    /**
-     * Get a sample of the defined sensor.
-     * @return the sample data as float.
-     * @throws PortNotDefinedException if the port of the accessed device is not defined in the roboter
-     * config object.
-     */
-    public float getTouchRight() throws PortNotDefinedException {
-        if (this.rightTouchSensor != null) {
-            return this.rightTouchSensor.getSample();
-        } else {
-            throw new PortNotDefinedException("Right touch sensor is being accessed, but not defined.");
+            throw new PortNotDefinedException("Touch sensor is being accessed, but not defined.");
         }
     }
 
@@ -142,7 +143,7 @@ public class SensorWrapper {
     
     public float getGyro() throws PortNotDefinedException {
         if (this.gyroSensor != null) {
-            return this.gyroSensorWrapper.getSample();
+            return this.gyroSensor.getSample();
         } else {
             throw new PortNotDefinedException("Gyroscope sensor is being accessed, but not defined.");
         }

@@ -2,17 +2,17 @@ package bridgeCrossing;
 
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
-import lineFollowing.LineFollowing;
 import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
+import robotcontrol.SensorWrapper;
 
 public class StateDriveUp extends State {
 
-	private static int ACC = 4000;
-	private static int SPEED = 200;
-	private float intensity = 0;
-	
+	private static int MOVE_ACCELERATION = 4000;
+	private static int MOVE_SPEED = 200;
+
+	@SuppressWarnings( "deprecation" )
 	public StateDriveUp(BridgeCrossing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
@@ -26,17 +26,15 @@ public class StateDriveUp extends State {
 		Sound.twoBeeps();
 		Sound.twoBeeps();
 		Sound.twoBeeps();
-		pilot.setAcceleration(ACC);
-		pilot.setTravelSpeed(SPEED);
+		pilot.setAcceleration(MOVE_ACCELERATION);
+		pilot.setTravelSpeed(MOVE_SPEED);
 		pilot.forward();		
 	}
 
 	@Override
 	public void run() throws PortNotDefinedException {
-		intensity = robot.sensors.getColor();
-		
 		//sensor sees black
-		if (intensity > 0.6f) {
+		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_GROUND) {
 			Sound.beepSequence();
 		}
 		

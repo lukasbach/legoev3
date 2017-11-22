@@ -8,6 +8,7 @@ import robotcontrol.Robot;
 
 public class Labyrinth extends CourseSectionStateMachine {
 
+	@SuppressWarnings( "deprecation" )
 	public Labyrinth(Robot robot, DifferentialPilot pilot) {
 		super();
 		State[] states = new State[1];

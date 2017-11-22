@@ -8,48 +8,35 @@ import lejos.robotics.navigation.DifferentialPilot;
 import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
+import robotcontrol.SensorWrapper;
 
 public class StateForward extends State {
 	
-	private static int ACC = 4000;
-	private static int SPEED = 200;
-	private float intensity = 0;
-	private SampleProvider touch;
-	private EV3TouchSensor touchSensor;
-	 
-	public StateForward(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
+	final static int MOVE_ACCELERATION = 4000;
+    final static int MOVE_SPEED = 200;
+
+    @SuppressWarnings( "deprecation" )
+	StateForward(LineFollowing stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
-		touchSensor = new EV3TouchSensor(SensorPort.S2);
-		touch = touchSensor.getTouchMode();
 	}
 	
 	@Override
 	public void run() throws PortNotDefinedException {
-		intensity = robot.sensors.getColor();
-		
-		if (getTouch()) {
+		if (this.robot.sensors.getTouch() != 0) {
 			stateMachine.changeState(LineFollowing.OBSTACLE);
-		}
-		//sensor sees black
-		if (intensity < 0.4f) {
+		} else if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_GROUND) {
 			stateMachine.changeState(LineFollowing.ROTATE);
 		}
 		
-	}
-	
-	private boolean getTouch() {
-		float[] sample = new float[touch.sampleSize()];
-		touch.fetchSample(sample, 0);
-		return (sample[0] == 0) ? false : true;
 	}
 
 	@Override
 	public void init() {
 		Sound.beep();
-		pilot.setAcceleration(ACC);
-		pilot.setTravelSpeed(SPEED);
+		pilot.setAcceleration(MOVE_ACCELERATION);
+		pilot.setTravelSpeed(MOVE_SPEED);
 		pilot.forward();
 	}
 

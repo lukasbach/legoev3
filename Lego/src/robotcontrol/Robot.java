@@ -17,11 +17,9 @@ public class Robot {
 
     /**
      * This class supplies basic control options for the roboter.
-     * @param config contains all robot configuration information.
      */
     public Robot() {
     	this.motors = new MotorWrapper();
         this.sensors = new SensorWrapper();
-        //this.sensors.start();
     }
 }
