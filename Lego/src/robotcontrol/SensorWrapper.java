@@ -7,7 +7,7 @@ public class SensorWrapper {
 	public static final int COLOR_ID_RED = 0; // normally 0=none
 	public static final int COLOR_ID_BLUE = 2;
 	public static final int COLOR_ID_GROUND = 7; // 7=brown
-	public static final int COLOR_ID_LINE = 6; //7 6=white
+	public static final int COLOR_ID_LINE = 6; // 6=white
 
 	private class MultiSensorWrapper {
 		protected BaseSensor sensor;

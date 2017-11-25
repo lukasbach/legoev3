@@ -1,7 +1,6 @@
 package main;
 
-import bridgeCrossing.BridgeCrossing;
-import labyrinth.Labyrinth;
+import bridgeCrossingPID.BridgeCrossing;
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import lineFollowing.LineFollowing;
@@ -28,12 +27,12 @@ public class CourseSectionManager {
 				break;
 
 			case LABYRINTH:
-				new Labyrinth(robot, pilot);
+				//new Labyrinth(robot, pilot);
 				break;
 
 			default:
 				Sound.beepSequence();
-				throw new InternalError("Men� is immernoch am Arsch");
+				throw new InternalError("Menue is immernoch am Arsch");
 		}
 	}
 
