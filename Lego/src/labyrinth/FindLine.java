@@ -1,85 +1,58 @@
 package labyrinth;
 
 import lejos.robotics.navigation.DifferentialPilot;
-import lejos.utility.Delay;
-import lineFollowing.LineFollowing;
 import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
 import robotcontrol.SensorWrapper;
 
-public class MakeDecision extends State {
-
+public class FindLine extends State {
 	final static int SEARCH_SPEED = 35;
 	final static int FAST_SPEED = 80;
 
 	final static int TURN_ANGLE_EXTRA = 15;
 	final static int STOPPING_ANGLE_EPS = 3;
-	
+
+	// TODO: Move to robot
+	private boolean lastRotationLeft = true;
+	private float rotationDirection = 1;
+
 	@SuppressWarnings("deprecation")
-	public MakeDecision(Labyrinth stateMachine, DifferentialPilot pilot, Robot robot) {
+	FindLine(Labyrinth stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
 	}
-	
-	
+
 	@Override
 	public void init() {
-		
+		// Resetting Gyro angles. Robot needs to be stationary for that.
+		pilot.stop();
 		try {
-			//positive degrees = left
-			
-			//test right
-			if (turnAndSearch(SEARCH_SPEED, -90)) {
-				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
-			}
-			pilot.forward();
-			Delay.msDelay(20);
-			pilot.stop();
-			
-			//test forward
-			if(turnAndSearch(SEARCH_SPEED, -90)) {
-				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
-			}
-			pilot.backward();
-			Delay.msDelay(20);
-			pilot.stop();
-			
-			//test left
-			if (turnAndSearch(SEARCH_SPEED, -90)) {
-				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
-			}
-			
-			//found dead end
-			turnAndSearch(FAST_SPEED, 90);
-			if(turnAndSearch(SEARCH_SPEED, 180)) {
-				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
-			}
-			
-			System.out.println("found no line to follow");
-			return;
-			
+			robot.sensors.gyroReset();
 		} catch (PortNotDefinedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public void run() throws PortNotDefinedException {
-		// TODO Auto-generated method stub
+
+		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
+		rotationDirection *= -1;
+		if (turnAndSearch(FAST_SPEED, 0)) return;
+
+		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
+		rotationDirection *= -1;
+		if (turnAndSearch(FAST_SPEED, 0)) return;
 
 	}
 
 	@Override
 	public void leave() {
-		// TODO Auto-generated method stub
-
 	}
-	
-	
+
 	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
 		float angleToTurn = Math.abs(targetAngle - this.robot.sensors.getGyro());
 		int direction = targetAngle - this.robot.sensors.getGyro() > 0 ? 1 : 0;
@@ -90,8 +63,12 @@ public class MakeDecision extends State {
 		while (true) {
 			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
 				pilot.stop();
-				stateMachine.changeState(LineFollowing.FORWARD);
+				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
 				return true;
+			}
+			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
+				pilot.stop();
+				stateMachine.changeState(Labyrinth.MAKE_DECISION);
 			}
 
 			if (Math.abs(targetAngle - this.robot.sensors.getGyro()) < STOPPING_ANGLE_EPS) {
@@ -102,5 +79,6 @@ public class MakeDecision extends State {
 
 		return false;
 	}
-
 }
+
+

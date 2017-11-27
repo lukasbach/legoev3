@@ -4,6 +4,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
+import robotcontrol.SensorWrapper;
 
 public class FollowLine extends State {
 
@@ -16,20 +17,23 @@ public class FollowLine extends State {
 
 	@Override
 	public void init() {
-
 	}
 
 	@Override
 	public void run() throws PortNotDefinedException {
 		try {
-			//System.out.println("color0:"  + this.robot.sensors.getColors()[0]);
-			//System.out.println("color1:"  + this.robot.sensors.getColors()[1]);
-			//System.out.println("color2:"  + this.robot.sensors.getColors()[2]);
 			System.out.println("color ID " + this.robot.sensors.getColor());
-			System.out.println("distance: " + this.robot.sensors.getDistance());
+			//System.out.println("distance: " + this.robot.sensors.getDistance());
 		} catch (PortNotDefinedException e) {
 			e.printStackTrace();
 		}
+		if (this.robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
+			stateMachine.changeState(Labyrinth.MAKE_DECISION);
+		}
+		if(this.robot.sensors.getColor() == SensorWrapper.COLOR_ID_GROUND) {
+			stateMachine.changeState(Labyrinth.FIND_LINE);
+		}
+		
 	}
 
 	@Override
