@@ -10,7 +10,7 @@ public class SensorWrapper {
 	public static final int COLOR_ID_LINE = 6; // 6=white
 
 	private class MultiSensorWrapper {
-		protected BaseSensor sensor;
+		BaseSensor sensor;
 		private SensorMode mode;
 		private float[] samples;
 
@@ -113,9 +113,14 @@ public class SensorWrapper {
 	 * @throws PortNotDefinedException if the port of the accessed device is not defined in the roboter
 	 *                                 config object.
 	 */
-	public float getColor() throws PortNotDefinedException {
+	public int getColor() throws PortNotDefinedException {
 		if (this.colorSensor != null) {
-			return this.colorSensor.getSample();
+			float colorUnrounded = this.colorSensor.getSample();
+			int color = 0;//Math.round(colorUnrounded);
+			color = ((EV3ColorSensor) this.colorSensor.sensor).getColorID();
+			
+			
+			return color;
 		} else {
 			throw new PortNotDefinedException("Color sensor is being accessed, but not defined.");
 		}
