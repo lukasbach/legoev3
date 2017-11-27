@@ -56,25 +56,25 @@ public class StateRotate extends State {
 	}
 
 	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
-		float angleToTurn = Math.abs(targetAngle - this.robot.sensors.getGyro());
-		int direction = targetAngle - this.robot.sensors.getGyro() > 0 ? 1 : 0;
-
+		float angleToTurn = Math.abs(targetAngle - robot.sensors.getGyro());
+		int direction = targetAngle - this.robot.sensors.getGyro() > 0 ? 1 : -1;
+		
 		pilot.setRotateSpeed(speed);
-		pilot.rotate(direction * (angleToTurn + TURN_ANGLE_EXTRA), true);
+		pilot.rotate(direction * (angleToTurn + 30), true); // Make sure to turn AT LEAST angleToTurn °
 
 		while (true) {
-			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
+			if (robot.sensors.getColor() == robot.sensors.COLOR_ID_LINE) {
 				pilot.stop();
 				stateMachine.changeState(LineFollowing.FORWARD);
 				return true;
 			}
 
-			if (Math.abs(targetAngle - this.robot.sensors.getGyro()) < STOPPING_ANGLE_EPS) {
+			if (Math.abs(targetAngle - robot.sensors.getGyro()) < STOPPING_ANGLE_EPS) {
 				pilot.stop();
 				break;
 			}
 		}
-
+		
 		return false;
 	}
 }

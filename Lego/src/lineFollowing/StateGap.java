@@ -55,7 +55,7 @@ public class StateGap extends State {
 
 	private boolean turnSearch(int direction) {
 		pilot.setRotateSpeed(StateRotate.SEARCH_SPEED);
-		pilot.rotate(90 * direction, true);
+		pilot.rotate(45 * direction, true);
 
 		while (pilot.isMoving()) {
 			try {
@@ -70,7 +70,7 @@ public class StateGap extends State {
 		}
 
 		pilot.setRotateSpeed(StateRotate.FAST_SPEED);
-		pilot.rotate(-90 * direction);
+		pilot.rotate(-45 * direction);
 
 		return false;
 	}
