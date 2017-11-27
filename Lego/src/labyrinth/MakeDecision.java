@@ -1,5 +1,6 @@
 package labyrinth;
 
+import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.utility.Delay;
 import lineFollowing.LineFollowing;
@@ -16,11 +17,19 @@ public class MakeDecision extends State {
 	final static int TURN_ANGLE_EXTRA = 15;
 	final static int STOPPING_ANGLE_EPS = 3;
 	
+	private boolean right;
+	private boolean left;
+	private boolean forward; 
+	
 	@SuppressWarnings("deprecation")
 	public MakeDecision(Labyrinth stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
+		
+		right = false;
+		left = false;
+		forward = false;
 	}
 	
 	
@@ -28,33 +37,39 @@ public class MakeDecision extends State {
 	public void init() {
 		
 		try {
+			robot.sensors.gyroReset();
 			//positive degrees = left
-			
+			System.out.println("make decision");
+			pilot.travel(50);
+			Sound.beepSequenceUp();
 			//test right
-			if (turnAndSearch(SEARCH_SPEED, -90)) {
-				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
-			}
-			pilot.forward();
-			Delay.msDelay(20);
-			pilot.stop();
 			
-			//test forward
-			if(turnAndSearch(SEARCH_SPEED, -90)) {
+			right = turnAndSearch(SEARCH_SPEED, -90);
+			if (right) {
+				Sound.beepSequenceUp();
 				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
+				return;
 			}
-			pilot.backward();
-			Delay.msDelay(20);
-			pilot.stop();
+			
+			forward = turnAndSearch(SEARCH_SPEED, 0);
+			//test forward
+			if(forward) {
+				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
+				return;
+			}
 			
 			//test left
-			if (turnAndSearch(SEARCH_SPEED, -90)) {
+			left = turnAndSearch(SEARCH_SPEED, 90);
+			if (left) {
 				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
+				return;
 			}
 			
 			//found dead end
-			turnAndSearch(FAST_SPEED, 90);
+			turnAndSearch(FAST_SPEED, 0);
 			if(turnAndSearch(SEARCH_SPEED, 180)) {
 				stateMachine.changeState(Labyrinth.FOLLOW_LINE);
+				return;
 			}
 			
 			System.out.println("found no line to follow");
@@ -90,7 +105,7 @@ public class MakeDecision extends State {
 		while (true) {
 			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
 				pilot.stop();
-				stateMachine.changeState(LineFollowing.FORWARD);
+				//stateMachine.changeState(Labyrinth.FORWARD);
 				return true;
 			}
 

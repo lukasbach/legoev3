@@ -26,6 +26,7 @@ public class FindLine extends State {
 
 	@Override
 	public void init() {
+		System.out.println("find line");
 		// Resetting Gyro angles. Robot needs to be stationary for that.
 		pilot.stop();
 		try {

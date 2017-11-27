@@ -1,6 +1,8 @@
 package labyrinth;
 
+import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
+import lejos.utility.Delay;
 import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
@@ -19,6 +21,7 @@ public class FindBeginning extends State {
 
 	@Override
 	public void init() {
+		System.out.println("find beginning");
 		pilot.setAcceleration(MOVE_ACCELERATION);
 		pilot.setTravelSpeed(MOVE_SPEED);
 		pilot.forward();
@@ -31,13 +34,16 @@ public class FindBeginning extends State {
 			pilot.setAcceleration(4000);
 			pilot.setTravelSpeed(100);
 			pilot.forward();
+			Delay.msDelay(100);
 		}
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
 			pilot.stop();
+			Sound.beepSequenceUp();
 			stateMachine.changeState(Labyrinth.FOLLOW_LINE);
 		}
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
 			pilot.stop();
+			Sound.beepSequenceUp();
 			stateMachine.changeState(Labyrinth.MAKE_DECISION);
 		}
 	}
