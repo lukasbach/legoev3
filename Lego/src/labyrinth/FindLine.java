@@ -56,7 +56,7 @@ public class FindLine extends State {
 
 	private boolean turnAndSearch(int speed, float targetAngle) throws PortNotDefinedException {
 		float angleToTurn = Math.abs(targetAngle - this.robot.sensors.getGyro());
-		int direction = targetAngle - this.robot.sensors.getGyro() > 0 ? 1 : 0;
+		int direction = targetAngle - this.robot.sensors.getGyro() > 0 ? 1 : -1;
 
 		pilot.setRotateSpeed(speed);
 		pilot.rotate(direction * (angleToTurn + TURN_ANGLE_EXTRA), true);
