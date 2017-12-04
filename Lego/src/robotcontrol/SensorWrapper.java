@@ -10,7 +10,7 @@ public class SensorWrapper {
 	public static final int COLOR_ID_LINE = 6; // 6=white
 
 	private class MultiSensorWrapper {
-		BaseSensor sensor;
+		public BaseSensor sensor;
 		private SensorMode mode;
 		private float[] samples;
 
@@ -26,7 +26,7 @@ public class SensorWrapper {
 		}
 	}
 
-	private class SingleValueSensorWrapper extends MultiSensorWrapper {
+	public class SingleValueSensorWrapper extends MultiSensorWrapper {
 		SingleValueSensorWrapper(BaseSensor sensor, String mode) {
 			super(sensor, mode);
 		}
@@ -47,7 +47,7 @@ public class SensorWrapper {
 	}
 
 	private SingleValueSensorWrapper touchSensor;
-	private SingleValueSensorWrapper colorSensor;
+	public SingleValueSensorWrapper colorSensor;
 	private SingleValueSensorWrapper ultrasonicSensor;
 	private gyroSensorWrapper gyroSensor;
 	private int sensorSampleFrequency;
