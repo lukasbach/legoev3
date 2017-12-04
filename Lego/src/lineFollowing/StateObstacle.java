@@ -42,13 +42,13 @@ public class StateObstacle extends State {
 	public void init() {
 		try {
 			this.robot.sensors.gyroReset();
-			turn(-90);
-			drive(920);
+			turn(-80);
+			drive(600);
 			turn(90);
-			drive(2100);
+			drive(1650);
 			turn(90);
-			drive(920);
-			turn(-90);
+			drive(750);
+			turn(-100);
 			stateMachine.changeState(LineFollowing.ROTATE);
 		} catch (PortNotDefinedException e) {
 			e.printStackTrace();
