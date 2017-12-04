@@ -30,11 +30,12 @@ public class FindBeginning extends State {
 	@Override
 	public void run() throws PortNotDefinedException {
 		if(robot.sensors.getColor() == SensorWrapper.COLOR_ID_BLUE) {
-			pilot.stop();
-			pilot.setAcceleration(4000);
-			pilot.setTravelSpeed(100);
+		/*	pilot.stop();
+			pilot.setAcceleration(MOVE_ACCELERATION);
+			pilot.setTravelSpeed(MOVE_SPEED);
 			pilot.forward();
-			Delay.msDelay(100);
+			Delay.msDelay(100);*/
+			Sound.twoBeeps();
 		}
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
 			pilot.stop();

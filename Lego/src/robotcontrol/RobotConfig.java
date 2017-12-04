@@ -16,5 +16,5 @@ public class RobotConfig {
 
 	public static final Port leftMotorPort = MotorPort.B;
 	public static final Port rightMotorPort = MotorPort.C;
-	public static final Port headMotorPort = MotorPort.D;
+	public static final Port headMotorPort = MotorPort.A;
 }

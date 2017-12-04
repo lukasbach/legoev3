@@ -40,12 +40,12 @@ public class FindLine extends State {
 	@Override
 	public void run() throws PortNotDefinedException {
 
-		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
-		rotationDirection *= -1;
+		if (turnAndSearch(SEARCH_SPEED, -90)) return;
+		
 		if (turnAndSearch(FAST_SPEED, 0)) return;
 
-		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
-		rotationDirection *= -1;
+		if (turnAndSearch(SEARCH_SPEED, 90)) return;
+		
 		if (turnAndSearch(FAST_SPEED, 0)) return;
 
 	}
