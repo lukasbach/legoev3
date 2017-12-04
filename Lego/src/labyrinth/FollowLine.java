@@ -15,9 +15,11 @@ public class FollowLine extends State {
 	float integral = 0;
 	float deriv = 0;
 	float correction = 0;
-	float kP = 1500.0f;
-	float kI = 20.0f;
+	float kP = 3000.0f;
+	float kI = 0.0f;
 	float kD = 0.0f;
+	float motorSpeed = 150.0f;
+	int counter = 0;
 	
 	@SuppressWarnings("deprecation")
 	public FollowLine(Labyrinth stateMachine, DifferentialPilot pilot, Robot robot) {
@@ -36,21 +38,43 @@ public class FollowLine extends State {
 		float[] rgb = new float[3];
 		((EV3ColorSensor) (robot.sensors.colorSensor.sensor)).getRGBMode().fetchSample(rgb, 0);
 		
-		System.out.println(rgb[0] + "," + rgb[1] + "," + rgb[2]);
+		//System.out.println(rgb[0] + "," + rgb[1] + "," + rgb[2]);
+		//System.out.println("RED" + rgb[0]);
+		//System.out.println("GRE" + rgb[1]);
+		//System.out.println("BLU" + rgb[2]);
 
 		
-		if (false) { // if blue detected
+		if (false /*rgb[0] > 0.4f && rgb[0] < 0.5f*/) { // if blue detected
 			
 		} else {
 			error = 0.07f - rgb[0]; //TODO
 			integral += error;
 			deriv = error - lastError;
-			lastError = error;
 			correction = kP * error + kI * integral + kD * deriv;
-			System.out.println(correction);
+		//	System.out.println(correction);
 			
-			 float leftMotorSpeed = (float) (80.0f + correction);
-			 float rightMotorSpeed = (float) (80.0f - correction);
+			//motorSpeed = Math.min(150.f, Math.max(150.f - Math.abs(error * 10000), 0.f));
+			//motorSpeed = Math.max(0.f, Math.min(100.f, 100.f - Math.abs(integral * 100)));
+	//		motorSpeed = integral < 1 ? 100.f : 100.f - integral * 100;
+	//		motorSpeed = motorSpeed < 0 ? 0 : motorSpeed;
+			
+			if (lastError * error < 0) {
+				counter = 0;
+			} else {
+				counter = counter + 1;//counter > 50 ? 50 : counter + 1;
+			}
+			
+			motorSpeed = counter > 10 ? 0 : 150f;
+			
+			
+			 float leftMotorSpeed = (float) (motorSpeed + correction);
+			 float rightMotorSpeed = (float) (motorSpeed - correction);
+			 
+			 System.out.println(counter + "\t" + lastError*error );
+			 
+			 //System.out.println((((float) Math.round(error * 100)) / 100) + ",\t"
+			//	 + (((float) Math.round(motorSpeed * 100)) / 100));
+			 
 			 robot.motors.rightMotor.setSpeed(rightMotorSpeed);
 			 robot.motors.leftMotor.setSpeed(leftMotorSpeed); 
 			 if (leftMotorSpeed < 0) {
@@ -65,7 +89,8 @@ public class FollowLine extends State {
 				 robot.motors.rightMotor.backward();
 			 }
 			 
-			 Delay.msDelay(10);
+			 Delay.msDelay(20);
+			lastError = error;
 		}
 		
 	}
