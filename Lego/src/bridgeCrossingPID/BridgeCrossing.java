@@ -11,7 +11,7 @@ public class BridgeCrossing {
 	
 	private static int MOVE_ACCELERATION = 4000;
 	private static int MOVE_SPEED = 200;
-	private static float DISTANCE_FLOOR = 0.13f;
+	private static float DISTANCE_FLOOR = 0.144f;
 	
 	private float distance = 0; 
 	private float error = 0; 
@@ -19,8 +19,8 @@ public class BridgeCrossing {
 	private float integral = 0; 
 	private float deriv = 0; 
 	private double correction = 0; 
-	private float kP = 1500.0f; 
-	private float kI = 60.0f; 
+	private float kP = 2000.0f; 
+	private float kI = 30.0f; 
 	private float kD = 0.0f; 
 	private float leftMotorSpeed = 0;
 	private float rightMotorSpeed = 0;
@@ -39,18 +39,23 @@ public class BridgeCrossing {
 	}
 
 	private void run() throws PortNotDefinedException {
-		robot.motors.headMotor.rotateTo(-70); //wait until arm is on the front right
+		robot.sensors.gyroReset();
+		robot.motors.headMotor.rotateTo(-110); //wait until arm is on the front right
 		pilot.setAcceleration(MOVE_ACCELERATION);
 		pilot.setTravelSpeed(MOVE_SPEED);
 		pilot.travel(500);
-		pilot.rotate(-20);
-		pilot.forward();
-		while (robot.sensors.getDistance() < DISTANCE_FLOOR + 0.05) {
-			//wait until robot has moved to the edge
-			System.out.println(robot.sensors.getDistance());
-		}
-		
+		//pilot.rotate(-20);
+		//pilot.forward();
+//		while (true) {
+//			System.out.println(robot.sensors.getDistance());
+//		}
+//		while (robot.sensors.getDistance() < DISTANCE_FLOOR + 0.05) {
+//			//wait until robot has moved to the edge
+//			System.out.println(robot.sensors.getDistance());
+//		}
+//		
 		while (true) {
+			System.out.println(robot.sensors.getGyro());
 			 distance = robot.sensors.getDistance();
 			 if (distance > DISTANCE_FLOOR + 0.3) distance = DISTANCE_FLOOR + 0.3f;
 			 if (Math.abs(distance) > 1000) continue;
@@ -60,7 +65,7 @@ public class BridgeCrossing {
 			 lastError = error; 
 			 correction = kP * error + kI * integral + kD * deriv;
 			 //System.out.println("DISTANCE: " + distance);
-			 System.out.println(correction);
+			 //System.out.println(correction);
 			 //System.out.println("error\t" + error);
 			 //correction /= 100;
 			 leftMotorSpeed = (float) (80.0f + correction);
