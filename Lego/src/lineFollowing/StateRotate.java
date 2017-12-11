@@ -12,7 +12,7 @@ public class StateRotate extends State {
 	final static int FAST_SPEED = 80;
 
 	final static int TURN_ANGLE_EXTRA = 15;
-	final static int STOPPING_ANGLE_EPS = 3;
+	final static int STOPPING_ANGLE_EPS = 5;
 
 	// TODO: Move to robot
 	private boolean lastRotationLeft = true;
@@ -63,7 +63,7 @@ public class StateRotate extends State {
 		pilot.rotate(direction * (angleToTurn + 30), true); // Make sure to turn AT LEAST angleToTurn °
 
 		while (true) {
-			if (robot.sensors.getColor() == robot.sensors.COLOR_ID_LINE) {
+			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
 				pilot.stop();
 				stateMachine.changeState(LineFollowing.FORWARD);
 				return true;
@@ -71,10 +71,8 @@ public class StateRotate extends State {
 
 			if (Math.abs(targetAngle - robot.sensors.getGyro()) < STOPPING_ANGLE_EPS) {
 				pilot.stop();
-				break;
+				return false;
 			}
 		}
-		
-		return false;
 	}
 }
