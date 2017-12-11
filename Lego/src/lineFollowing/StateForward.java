@@ -23,6 +23,9 @@ public class StateForward extends State {
 	public void run() throws PortNotDefinedException {
 		if (this.robot.sensors.getTouch() != 0) {
 			stateMachine.changeState(LineFollowing.OBSTACLE);
+		} else if (this.robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
+			// Go to labyrinth
+			
 		} else if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_GROUND) {
 			stateMachine.changeState(LineFollowing.ROTATE);
 		}
