@@ -1,5 +1,6 @@
 package main;
 
+import lejos.hardware.Sound;
 import robotcontrol.PortNotDefinedException;
 
 public class CourseSectionStateMachine {
@@ -10,14 +11,17 @@ public class CourseSectionStateMachine {
 
 	private int state = 0;
 	private State[] states;
+	private boolean running = true;
 
 	protected CourseSectionStateMachine() {
+		Sound.beepSequence();
+		Sound.playTone(2000, 1000);
 	}
 
 	protected void run() {
 		states[state].init();
 
-		while (true) {
+		while (running) {
 			try {
 				states[state].run();
 				Thread.sleep(STATE_RUN_DELAY);
@@ -43,5 +47,8 @@ public class CourseSectionStateMachine {
 		this.states = states;
 	}
 
-
+	public void stop() {
+		running = false;
+		this.states[state].leave();
+	}
 }

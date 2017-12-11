@@ -1,11 +1,14 @@
 package labyrinth;
 
+import bridgeCrossingPID.BridgeCrossing;
+import lejos.hardware.Sound;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.utility.Delay;
 import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
+import robotcontrol.SensorWrapper;
 
 public class FollowLine extends State {
 	
@@ -15,7 +18,7 @@ public class FollowLine extends State {
 	float integral = 0;
 	float deriv = 0;
 	float correction = 0;
-	float kP = 3000.0f;
+	float kP = 2400.0f;
 	float kI = 0.0f;
 	float kD = 0.0f;
 	float motorSpeed = 150.0f;
@@ -35,8 +38,9 @@ public class FollowLine extends State {
 	
 	@Override
 	public void run() throws PortNotDefinedException {
-		float[] rgb = new float[3];
-		((EV3ColorSensor) (robot.sensors.colorSensor.sensor)).getRGBMode().fetchSample(rgb, 0);
+		//float[] rgb = new float[3];
+		//((EV3ColorSensor) (robot.sensors.colorSensor.sensor)).getRGBMode().fetchSample(rgb, 0);
+		float[] rgb = robot.sensors.getColors();		
 		
 		//System.out.println(rgb[0] + "," + rgb[1] + "," + rgb[2]);
 		//System.out.println("RED" + rgb[0]);
@@ -44,8 +48,12 @@ public class FollowLine extends State {
 		//System.out.println("BLU" + rgb[2]);
 
 		
-		if (false /*rgb[0] > 0.4f && rgb[0] < 0.5f*/) { // if blue detected
-			
+		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_BLUE) { // if blue detected
+			pilot.stop();
+			stateMachine.stop();
+			Sound.beepSequence();
+			new BridgeCrossing(robot, pilot);
+			return;
 		} else {
 			error = 0.07f - rgb[0]; //TODO
 			integral += error;
@@ -69,8 +77,6 @@ public class FollowLine extends State {
 			
 			 float leftMotorSpeed = (float) (motorSpeed + correction);
 			 float rightMotorSpeed = (float) (motorSpeed - correction);
-			 
-			 System.out.println(counter + "\t" + lastError*error );
 			 
 			 //System.out.println((((float) Math.round(error * 100)) / 100) + ",\t"
 			//	 + (((float) Math.round(motorSpeed * 100)) / 100));
