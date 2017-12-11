@@ -1,11 +1,13 @@
 package labyrinth;
 
+import lejos.hardware.Sound;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.utility.Delay;
 import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
+import robotcontrol.SensorWrapper;
 
 public class FollowLine extends State {
 	
@@ -44,8 +46,10 @@ public class FollowLine extends State {
 		//System.out.println("BLU" + rgb[2]);
 
 		
-		if (false /*rgb[0] > 0.4f && rgb[0] < 0.5f*/) { // if blue detected
-			
+		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_BLUE) { // if blue detected
+			pilot.stop();
+			Sound.beepSequenceUp();
+			return;
 		} else {
 			error = 0.07f - rgb[0]; //TODO
 			integral += error;
