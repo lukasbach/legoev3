@@ -1,5 +1,8 @@
 package lineFollowing;
 
+import java.io.File;
+
+import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.utility.Delay;
 import main.State;
@@ -50,7 +53,7 @@ public class StateGap extends State {
 
 	@Override
 	public void init() {
-
+		Sound.playSample(new File("./artoo6.wav"), 100);
 	}
 
 	private boolean turnSearch(int direction) {
