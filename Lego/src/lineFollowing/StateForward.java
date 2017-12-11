@@ -1,5 +1,6 @@
 package lineFollowing;
 
+import labyrinth.Labyrinth;
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import main.State;
@@ -25,7 +26,8 @@ public class StateForward extends State {
 			stateMachine.changeState(LineFollowing.OBSTACLE);
 		} else if (this.robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
 			// Go to labyrinth
-			
+			stateMachine.stop();
+			new Labyrinth(robot, pilot);
 		} else if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_GROUND) {
 			stateMachine.changeState(LineFollowing.ROTATE);
 		}

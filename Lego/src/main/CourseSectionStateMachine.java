@@ -10,6 +10,7 @@ public class CourseSectionStateMachine {
 
 	private int state = 0;
 	private State[] states;
+	private boolean running = true;
 
 	protected CourseSectionStateMachine() {
 	}
@@ -17,7 +18,7 @@ public class CourseSectionStateMachine {
 	protected void run() {
 		states[state].init();
 
-		while (true) {
+		while (running) {
 			try {
 				states[state].run();
 				Thread.sleep(STATE_RUN_DELAY);
@@ -43,5 +44,8 @@ public class CourseSectionStateMachine {
 		this.states = states;
 	}
 
-
+	public void stop() {
+		running = false;
+		this.states[state].leave();
+	}
 }
