@@ -3,6 +3,7 @@ package robotcontrol;
 
 import lejos.hardware.Sound;
 import lejos.hardware.sensor.*;
+import lejos.utility.Delay;
 
 public class SensorWrapper {
 	public static final int COLOR_ID_RED = 0; // normally 0=none
@@ -120,6 +121,38 @@ public class SensorWrapper {
 			int color = 0;//Math.round(colorUnrounded);
 			color = ((EV3ColorSensor) this.colorSensor.sensor).getColorID();
 			
+			float eps = 0.05f;
+			float[] supposedLine = {.22f, .31f, .14f};
+			float[] supposedGround = {.04f, .04f, .02f};
+			float[] supposedBlue = {.037f, .12f, .08f};
+			float[] supposedRed = {.24f, .04f, .015f};
+			
+			
+			if (checkColor(supposedLine, colors, 0.06f)) {
+				System.out.println("DETECTED LINE");
+				return SensorWrapper.COLOR_ID_LINE;
+			} else if (checkColor(supposedGround, colors, 0.06f)) {
+				System.out.println("DETECTED GROUND");
+				return SensorWrapper.COLOR_ID_GROUND;
+			} else if (checkColor(supposedBlue, colors, 0.035f)) {
+				System.out.println("DETECTED BLUE");
+				return SensorWrapper.COLOR_ID_BLUE;
+			} else if (checkColor(supposedRed, colors, eps)) {
+				System.out.println("DETECTED RED");
+				return SensorWrapper.COLOR_ID_RED;
+			} else {
+				Sound.playTone(200, 30);
+				Delay.msDelay(10);
+				Sound.playTone(200, 30);
+				Delay.msDelay(10);
+				Sound.playTone(200, 30);
+				Delay.msDelay(10);
+				Sound.playTone(200, 30);
+				Delay.msDelay(10);
+				Sound.playTone(200, 30);
+				return -1;
+			}
+			
 			/*if (colors[0] > 0.2 && colors[0] < 0.24
 					&& colors[1] > 0.29 && colors[1] < 0.33
 					&& colors[2] > 0.12 && colors[2] < 0.15) {
@@ -152,13 +185,17 @@ public class SensorWrapper {
 				Sound.playTone(1000, 300);
 			}*/
 			
-			return color;
+			//return color;
 		} else {
 			throw new PortNotDefinedException("Color sensor is being accessed, but not defined.");
 		}
 	}
 	
-	private void checkColor(float[] supposed, float eps) {}
+	private boolean checkColor(float[] supposed, float[] is, float eps) {
+		return Math.abs(supposed[0] - is[0]) < eps
+				&& Math.abs(supposed[1] - is[1]) < eps
+				&& Math.abs(supposed[2] - is[2]) < eps;
+	}
 
 	public float[] getColors() throws PortNotDefinedException {
 		if (this.colorSensor != null) {

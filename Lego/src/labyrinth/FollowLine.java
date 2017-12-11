@@ -1,5 +1,6 @@
 package labyrinth;
 
+import bridgeCrossingPID.BridgeCrossing;
 import lejos.hardware.Sound;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -17,7 +18,7 @@ public class FollowLine extends State {
 	float integral = 0;
 	float deriv = 0;
 	float correction = 0;
-	float kP = 3000.0f;
+	float kP = 2400.0f;
 	float kI = 0.0f;
 	float kD = 0.0f;
 	float motorSpeed = 150.0f;
@@ -37,10 +38,9 @@ public class FollowLine extends State {
 	
 	@Override
 	public void run() throws PortNotDefinedException {
-		float[] rgb = new float[3];
-		((EV3ColorSensor) (robot.sensors.colorSensor.sensor)).getRGBMode().fetchSample(rgb, 0);
-		
-		
+		//float[] rgb = new float[3];
+		//((EV3ColorSensor) (robot.sensors.colorSensor.sensor)).getRGBMode().fetchSample(rgb, 0);
+		float[] rgb = robot.sensors.getColors();		
 		
 		//System.out.println(rgb[0] + "," + rgb[1] + "," + rgb[2]);
 		//System.out.println("RED" + rgb[0]);
@@ -50,7 +50,9 @@ public class FollowLine extends State {
 		
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_BLUE) { // if blue detected
 			pilot.stop();
-			Sound.beepSequenceUp();
+			stateMachine.stop();
+			Sound.beepSequence();
+			new BridgeCrossing(robot, pilot);
 			return;
 		} else {
 			error = 0.07f - rgb[0]; //TODO

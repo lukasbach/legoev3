@@ -1,5 +1,7 @@
 package main;
 
+import java.io.File;
+
 import lejos.hardware.Button;
 import lejos.hardware.Key;
 import lejos.hardware.KeyListener;
@@ -48,6 +50,8 @@ public class Menu {
 	}
 
 	public static void main(String[] args) {
+		
+		Sound.playSample(new File("sm64_game_over.wav"));
 		Sound.beepSequenceUp();
 		Button.ESCAPE.addKeyListener(new KeyListener() {
 			@Override
@@ -60,6 +64,7 @@ public class Menu {
 				System.exit(0);
 			}
 		});
+		
 		new Menu();
 	}
 }

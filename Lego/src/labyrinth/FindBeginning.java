@@ -11,7 +11,9 @@ import robotcontrol.SensorWrapper;
 public class FindBeginning extends State {
 
 	final static int MOVE_ACCELERATION = 4000;
-	final static int MOVE_SPEED = 200;
+	final static int MOVE_SPEED = 150;
+	
+	int currentSpeed;
 	
 	public FindBeginning(Labyrinth stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
@@ -21,8 +23,9 @@ public class FindBeginning extends State {
 
 	@Override
 	public void init() {
+		currentSpeed = MOVE_SPEED;
 		pilot.setAcceleration(MOVE_ACCELERATION);
-		pilot.setTravelSpeed(MOVE_SPEED);
+		pilot.setTravelSpeed(currentSpeed);
 		pilot.forward();
 	}
 
@@ -35,6 +38,8 @@ public class FindBeginning extends State {
 			pilot.forward();
 			Delay.msDelay(100);*/
 			Sound.twoBeeps();
+			currentSpeed /= 2;
+			pilot.setTravelSpeed(currentSpeed);
 		}
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
 			pilot.stop();

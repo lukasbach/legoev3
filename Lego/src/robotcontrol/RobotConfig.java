@@ -10,7 +10,7 @@ public class RobotConfig {
 	public static final Port ultrasonicSensorPort = SensorPort.S1;
 	public static final Port gyroPort = SensorPort.S4;
 
-	public static final String colorSensorMode = "ColorID";
+	public static final String colorSensorMode = "RGB";
 	public static final String ultrasonicSensorMode = "Distance";
 	public static final String gyroSensorMode = "Angle";
 
