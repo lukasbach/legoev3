@@ -1,6 +1,7 @@
 package main;
 
 import bridgeCrossingPID.BridgeCrossing;
+import findColor.FindingColor;
 import labyrinth.Labyrinth;
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -30,7 +31,11 @@ public class CourseSectionManager {
 			case LABYRINTH:
 				new Labyrinth(robot, pilot);
 				break;
-
+				
+			case FIND_COLOR:
+				new FindingColor(robot, pilot);
+				break;
+				
 			default:
 				Sound.beepSequence();
 				throw new InternalError("Menue is immernoch am Arsch");
