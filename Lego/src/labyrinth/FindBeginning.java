@@ -21,7 +21,6 @@ public class FindBeginning extends State {
 
 	@Override
 	public void init() {
-		System.out.println("find beginning");
 		pilot.setAcceleration(MOVE_ACCELERATION);
 		pilot.setTravelSpeed(MOVE_SPEED);
 		pilot.forward();

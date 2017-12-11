@@ -1,6 +1,7 @@
 package robotcontrol;
 
 
+import lejos.hardware.Sound;
 import lejos.hardware.sensor.*;
 
 public class SensorWrapper {
@@ -115,16 +116,49 @@ public class SensorWrapper {
 	 */
 	public int getColor() throws PortNotDefinedException {
 		if (this.colorSensor != null) {
-			float colorUnrounded = this.colorSensor.getSample();
+			float[] colors = this.colorSensor.getSamples();
 			int color = 0;//Math.round(colorUnrounded);
 			color = ((EV3ColorSensor) this.colorSensor.sensor).getColorID();
 			
+			/*if (colors[0] > 0.2 && colors[0] < 0.24
+					&& colors[1] > 0.29 && colors[1] < 0.33
+					&& colors[2] > 0.12 && colors[2] < 0.15) {
+				// LINE
+				//System.out.println("DETECTED LINE");
+				return SensorWrapper.COLOR_ID_LINE;
+			} else if (colors[0] > 0.00 && colors[0] < 0.06
+					&& colors[1] > 0.00 && colors[1] < 0.06
+					&& colors[2] > 0.00 && colors[2] < 0.05) {
+				// GROUND
+				//System.out.println("DETECTED GROUND");
+				return SensorWrapper.COLOR_ID_GROUND;
+			} if (colors[0] > 0.03 && colors[0] < 0.05
+					&& colors[1] > 0.10 && colors[1] < 0.15
+					&& colors[2] > 0.06 && colors[2] < 0.11) {
+				// BLUE
+				//System.out.println("DETECTED BLUE");
+				return SensorWrapper.COLOR_ID_BLUE;
+			} if (colors[0] > 0.22 && colors[0] < 0.28
+					&& colors[1] > 0.02 && colors[1] < 0.07
+					&& colors[2] > 0.00 && colors[2] < 0.02) {
+				// RED
+				//System.out.println("DETECTED RED");
+				return SensorWrapper.COLOR_ID_RED;
+			} else {
+				System.out.println(colors[0] + "," + colors[1] + "," + colors[2]);
+				Sound.playTone(1000, 1000);
+				Sound.playTone(1100, 200);
+				Sound.playTone(1200, 250);
+				Sound.playTone(1000, 300);
+			}*/
 			
 			return color;
 		} else {
 			throw new PortNotDefinedException("Color sensor is being accessed, but not defined.");
 		}
 	}
+	
+	private void checkColor(float[] supposed, float eps) {}
 
 	public float[] getColors() throws PortNotDefinedException {
 		if (this.colorSensor != null) {

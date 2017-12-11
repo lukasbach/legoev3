@@ -40,6 +40,8 @@ public class FollowLine extends State {
 		float[] rgb = new float[3];
 		((EV3ColorSensor) (robot.sensors.colorSensor.sensor)).getRGBMode().fetchSample(rgb, 0);
 		
+		
+		
 		//System.out.println(rgb[0] + "," + rgb[1] + "," + rgb[2]);
 		//System.out.println("RED" + rgb[0]);
 		//System.out.println("GRE" + rgb[1]);
@@ -73,8 +75,6 @@ public class FollowLine extends State {
 			
 			 float leftMotorSpeed = (float) (motorSpeed + correction);
 			 float rightMotorSpeed = (float) (motorSpeed - correction);
-			 
-			 System.out.println(counter + "\t" + lastError*error );
 			 
 			 //System.out.println((((float) Math.round(error * 100)) / 100) + ",\t"
 			//	 + (((float) Math.round(motorSpeed * 100)) / 100));

@@ -1,5 +1,6 @@
 package main;
 
+import lejos.hardware.Sound;
 import robotcontrol.PortNotDefinedException;
 
 public class CourseSectionStateMachine {
@@ -13,6 +14,8 @@ public class CourseSectionStateMachine {
 	private boolean running = true;
 
 	protected CourseSectionStateMachine() {
+		Sound.beepSequence();
+		Sound.playTone(2000, 1000);
 	}
 
 	protected void run() {
