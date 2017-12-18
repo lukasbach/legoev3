@@ -12,7 +12,7 @@ public class BridgeCrossing {
 
 	private static int MOVE_ACCELERATION = 200;
 	private static int MOVE_SPEED = 200;
-	private static float DISTANCE_FLOOR = 0.142f;
+	private static float DISTANCE_FLOOR = 0.144f;
 
 	private float distance = 0;
 	private float error = 0;
@@ -20,7 +20,7 @@ public class BridgeCrossing {
 	private float integral = 0;
 	private float deriv = 0;
 	private double correction = 0;
-	private float kP =1500.0f;
+	private float kP = 3000.0f;
 	private float kI = 10.0f;
 	private float kD = 0.0f;
 	private float leftMotorSpeed = 0;
@@ -51,37 +51,38 @@ public class BridgeCrossing {
 //			System.out.println(robot.sensors.getGyro());
 //		}
 		
-		while (true) {
-			if (counter == 300) {
-				Sound.beepSequenceUp();
-			}
-			if (counter == 400) {
-				Sound.beepSequenceUp();
-			}
-			if (counter == 500) {
-				Sound.beepSequenceUp();
-			}
-			if (counter == 600) {
-				Sound.beepSequenceUp();
-			}
+		while (counter < 900) {
+//			if (counter == 700) {
+//				Sound.beepSequenceUp();
+//			}
+//			if (counter == 800) {
+//				Sound.beepSequenceUp();
+//			}
+//			if (counter == 900) {
+//				Sound.beepSequenceUp();
+//			}
+//			if (counter == 1000) {
+//				Sound.beepSequenceUp();
+//			}
 			counter ++;
-			System.out.println(counter);
+			System.out.println(robot.sensors.getColors()[0]);
 			distance = robot.sensors.getDistance();
 			if (distance > DISTANCE_FLOOR + 0.3)
 				distance = DISTANCE_FLOOR + 0.3f;
 			if (Math.abs(distance) > 1000)
 				continue;
-			if (counter < 300) {
-				error = DISTANCE_FLOOR + 0.02f - distance;
-			} else if (counter >= 300 && counter < 400) {
-				error = DISTANCE_FLOOR + 0.03f - distance;
-			} else if (counter >= 400 && counter < 500) {
-				error = DISTANCE_FLOOR + 0.07f - distance;
-			} else if (counter >= 500 && counter < 600) {
-				error = DISTANCE_FLOOR + 0.12f - distance;
-			} else 	if (counter > 600) {
-				error = DISTANCE_FLOOR + 0.2f - distance;
-			}
+			error = DISTANCE_FLOOR + 0.02f - distance;
+//			if (counter < 700) {
+//				error = DISTANCE_FLOOR + 0.02f - distance;
+//			} else if (counter >= 700 && counter < 800) {
+//				error = DISTANCE_FLOOR + 0.03f - distance;
+//			} else if (counter >= 800 && counter < 900) {
+//				error = DISTANCE_FLOOR + 0.07f - distance;
+//			} else if (counter >= 900 && counter < 1000) {
+//				error = DISTANCE_FLOOR + 0.12f - distance;
+//			} else 	if (counter > 1000) {
+//				error = DISTANCE_FLOOR + 0.22f - distance;
+//			}
 			integral += error;
 			deriv = error - lastError;
 			lastError = error;
@@ -106,6 +107,14 @@ public class BridgeCrossing {
 				robot.motors.rightMotor.backward();
 			}
 		}
+		
+		pilot.setTravelSpeed(100);
+		pilot.travel(600, true);
+		
+		while (robot.sensors.getColors()[0] > 0.01) {
+			
+		}
+		Sound.beepSequenceUp();
 	}
 
 }
