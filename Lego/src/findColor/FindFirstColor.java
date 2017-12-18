@@ -13,14 +13,15 @@ public class FindFirstColor extends State {
 	
 	final static int MOVE_ACCELERATION = 4000;
 	final static int MOVE_SPEED = 200;
-	private boolean foundFirstColor;
-	
+	public static boolean foundWhite;
+	public static boolean foundRed;
 
 	public FindFirstColor(FindingColor stateMachine, DifferentialPilot pilot, Robot robot) {
 		this.stateMachine = stateMachine;
 		this.pilot = pilot;
 		this.robot = robot;
-		foundFirstColor = false;
+		foundWhite = false;
+		foundRed = false;
 	}
 	
 	@Override
@@ -29,10 +30,6 @@ public class FindFirstColor extends State {
 		pilot.setTravelSpeed(MOVE_SPEED);
 		pilot.forward();
 		
-		/*while(!(robot.sensors.getTouch() != 0)) {
-			
-		}
-		pilot.stop();*/
 	}
 
 	@Override
@@ -40,20 +37,28 @@ public class FindFirstColor extends State {
 		if (robot.sensors.getTouch() != 0) {
 			stateMachine.changeState(FindingColor.TURN);
 		}
-		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED || robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
-			Sound.playSample(new File("R2D2N1.wav"));
+		if (!foundRed && robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
+			Sound.beepSequenceUp();
+			foundRed = true;
+			//Sound.playSample(new File("R2D2N1.wav"));
+			if (foundWhite) {
+				pilot.stop();
+				Sound.beepSequenceUp();
+			}
 		}
+		if (!foundWhite && robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
+			Sound.beepSequenceUp();
+			//Sound.playSample(new File("R2D2N1.wav"));
+			foundWhite = true;
+			if (foundRed) {
+				pilot.stop();
+				Sound.beepSequenceUp();
+			}
+		}
+		
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_BLUE) {
 			stateMachine.changeState(FindingColor.TURN);
 		}
-		
-		if (foundFirstColor && (robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED || 
-				robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE))
-		{
-			pilot.stop();
-			Sound.playSample(new File("R2D2N1.wav"));
-		}
-		
 	}
 
 	@Override
