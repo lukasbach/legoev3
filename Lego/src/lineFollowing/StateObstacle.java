@@ -46,10 +46,10 @@ public class StateObstacle extends State {
 		try {
 			Sound.playSample(new File("./blaster.wav"), 100);
 			this.robot.sensors.gyroReset();
-			turn(-80);
-			drive(600);
+			turn(-90);
+			drive(800);
 			turn(90);
-			drive(1650);
+			drive(1850);
 			turn(90);
 			drive(750);
 			turn(-100);
