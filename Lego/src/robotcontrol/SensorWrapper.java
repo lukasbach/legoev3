@@ -128,20 +128,20 @@ public class SensorWrapper {
 			float[] supposedRed = {.24f, .04f, .015f};
 			
 			
-			if (checkColor(supposedLine, colors, 0.06f)) {
-				System.out.println("DETECTED LINE");
+			if (checkColor(supposedLine, colors, 0.1f)) {
+				System.out.println("LINE");
 				return SensorWrapper.COLOR_ID_LINE;
 			} else if (checkColor(supposedGround, colors, 0.06f)) {
-				System.out.println("DETECTED GROUND");
+				System.out.println("GROUND");
 				return SensorWrapper.COLOR_ID_GROUND;
 			} else if (checkColor(supposedBlue, colors, 0.035f)) {
-				System.out.println("DETECTED BLUE");
+				System.out.println("BLUE");
 				return SensorWrapper.COLOR_ID_BLUE;
-			} else if (checkColor(supposedRed, colors, eps)) {
-				System.out.println("DETECTED RED");
+			} else if (checkColor(supposedRed, colors, 0.1f)) {
+				System.out.println("RED");
 				return SensorWrapper.COLOR_ID_RED;
 			} else {
-				Sound.playTone(200, 30);
+				/*Sound.playTone(200, 30);
 				Delay.msDelay(10);
 				Sound.playTone(200, 30);
 				Delay.msDelay(10);
@@ -149,7 +149,8 @@ public class SensorWrapper {
 				Delay.msDelay(10);
 				Sound.playTone(200, 30);
 				Delay.msDelay(10);
-				Sound.playTone(200, 30);
+				Sound.playTone(200, 30);*/
+				System.out.println("NOTHING");
 				return -1;
 			}
 			

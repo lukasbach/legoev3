@@ -1,5 +1,8 @@
 package lineFollowing;
 
+import java.io.File;
+
+import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.utility.Delay;
 import main.State;
@@ -41,11 +44,12 @@ public class StateObstacle extends State {
 	@Override
 	public void init() {
 		try {
+			Sound.playSample(new File("./blaster.wav"), 100);
 			this.robot.sensors.gyroReset();
-			turn(-80);
-			drive(600);
+			turn(-90);
+			drive(800);
 			turn(90);
-			drive(1650);
+			drive(1850);
 			turn(90);
 			drive(750);
 			turn(-100);

@@ -1,5 +1,7 @@
 package main;
 
+import java.io.File;
+
 import lejos.hardware.Sound;
 import robotcontrol.PortNotDefinedException;
 
@@ -14,8 +16,7 @@ public class CourseSectionStateMachine {
 	private boolean running = true;
 
 	protected CourseSectionStateMachine() {
-		Sound.beepSequence();
-		Sound.playTone(2000, 1000);
+		Sound.playSample(new File("./jabbathehut.wav"), 100);
 	}
 
 	protected void run() {

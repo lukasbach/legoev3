@@ -51,7 +51,7 @@ public class Menu {
 
 	public static void main(String[] args) {
 		
-		Sound.playSample(new File("sm64_game_over.wav"));
+		Sound.playSample(new File("./VADRBRTH.wav"), 100);
 		Sound.beepSequenceUp();
 		Button.ESCAPE.addKeyListener(new KeyListener() {
 			@Override
