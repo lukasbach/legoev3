@@ -124,8 +124,8 @@ public class SensorWrapper {
 	public int getColor() throws PortNotDefinedException {
 		if (this.colorSensor != null) {
 			float[] colors = this.colorSensor.getSamples();
-			int color = 0;//Math.round(colorUnrounded);
-			color = ((EV3ColorSensor) this.colorSensor.sensor).getColorID();
+			//int color = 0;//Math.round(colorUnrounded);
+			//color = ((EV3ColorSensor) this.colorSensor.sensor).getColorID();
 			
 			float eps = 0.05f;
 			float[] supposedLine = {.22f, .31f, .14f};
@@ -142,6 +142,8 @@ public class SensorWrapper {
 				return SensorWrapper.COLOR_ID_GROUND;
 			} else if (checkColor(supposedBlue, colors, 0.05f)) {
 				System.out.println("BLUE");
+				
+			
 				return SensorWrapper.COLOR_ID_BLUE;
 			} else if (checkColor(supposedRed, colors, 0.1f)) {
 				System.out.println("RED");
