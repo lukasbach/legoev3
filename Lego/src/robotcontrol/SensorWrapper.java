@@ -15,6 +15,8 @@ public class SensorWrapper {
 		public BaseSensor sensor;
 		private SensorMode mode;
 		private float[] samples;
+		
+		private float lastFetchTime;
 
 		MultiSensorWrapper(BaseSensor sensor, String mode) {
 			this.sensor = sensor;
@@ -23,7 +25,11 @@ public class SensorWrapper {
 		}
 
 		float[] getSamples() {
-			mode.fetchSample(samples, 0);
+			//float currTime = System.currentTimeMillis();
+			//if (Math.abs(currTime - lastFetchTime) > 5) {
+			//	lastFetchTime = currTime;
+				mode.fetchSample(samples, 0);
+			//}
 			return samples;
 		}
 	}
@@ -232,6 +238,7 @@ public class SensorWrapper {
 	public void gyroReset() throws PortNotDefinedException {
 		if (this.gyroSensor != null) {
 			this.gyroSensor.reset();
+			Delay.msDelay(200);
 		} else {
 			throw new PortNotDefinedException("Gyroscope sensor is being accessed, but not defined.");
 		}

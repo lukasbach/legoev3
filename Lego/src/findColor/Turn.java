@@ -21,7 +21,7 @@ public class Turn extends State {
 	private boolean firstTurn;
 	private int lastTurnDirection;
 	private int currentRotation;
-	private final int durationDriveBack = 200;
+	private final int durationDriveBack = 300;
 	private final int durationDriveForward = 500;
 
 	public Turn(FindingColor stateMachine, DifferentialPilot pilot, Robot robot)
@@ -88,7 +88,7 @@ public class Turn extends State {
 		float angleToTurn = Math.abs(targetAngle - robot.sensors.getGyro());
 		int direction = targetAngle - this.robot.sensors.getGyro() > 0 ? 1 : -1;
 		
-		pilot.setRotateSpeed(MOVE_SPEED / 2);
+		pilot.setRotateSpeed(50);
 		pilot.rotate(direction * (angleToTurn + 30), true); // Make sure to turn AT LEAST angleToTurn °
 
 		while (true) {
@@ -96,6 +96,8 @@ public class Turn extends State {
 				pilot.stop();
 				return false;
 			}
+
+			FindFirstColor.testColor(robot, pilot);
 		}
 	}
 
