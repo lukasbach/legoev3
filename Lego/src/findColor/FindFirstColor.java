@@ -4,6 +4,7 @@ import java.io.File;
 
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
+import lejos.utility.Delay;
 import main.State;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
@@ -12,7 +13,7 @@ import robotcontrol.SensorWrapper;
 public class FindFirstColor extends State {
 	
 	final static int MOVE_ACCELERATION = 2000;
-	final static int MOVE_SPEED = 100;
+	final static int MOVE_SPEED = 150;
 	public static boolean foundWhite;
 	public static boolean foundRed;
 
@@ -38,8 +39,11 @@ public class FindFirstColor extends State {
 		}
 		
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_BLUE) {
-			stateMachine.changeState(FindingColor.TURN);
+			pilot.stop();
 			Sound.beepSequence();
+			pilot.backward();
+			Delay.msDelay(200);
+			stateMachine.changeState(FindingColor.TURN);
 		}
 		
 		FindFirstColor.testColor(robot, pilot);

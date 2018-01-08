@@ -134,13 +134,13 @@ public class SensorWrapper {
 			float[] supposedRed = {.24f, .04f, .015f};
 			
 			
-			if (checkColor(supposedLine, colors, 0.1f)) {
+			if (checkColor(supposedLine, colors, 0.07f)) {
 				System.out.println("LINE");
 				return SensorWrapper.COLOR_ID_LINE;
-			} else if (checkColor(supposedGround, colors, 0.06f)) {
+			} else if (checkColor(supposedGround, colors, 0.04f)) {
 				System.out.println("GROUND");
 				return SensorWrapper.COLOR_ID_GROUND;
-			} else if (checkColor(supposedBlue, colors, 0.035f)) {
+			} else if (checkColor(supposedBlue, colors, 0.05f)) {
 				System.out.println("BLUE");
 				return SensorWrapper.COLOR_ID_BLUE;
 			} else if (checkColor(supposedRed, colors, 0.1f)) {

@@ -16,7 +16,7 @@ import robotcontrol.SensorWrapper;
 public class Turn extends State {
 	
 	final static int MOVE_ACCELERATION = 2000;
-	final static int MOVE_SPEED = 150;
+	final static int MOVE_SPEED = 100;
 	final static int STOPPING_ANGLE_EPS = 3;
 	private boolean firstTurn;
 	private int lastTurnDirection;
@@ -88,8 +88,8 @@ public class Turn extends State {
 		float angleToTurn = Math.abs(targetAngle - robot.sensors.getGyro());
 		int direction = targetAngle - this.robot.sensors.getGyro() > 0 ? 1 : -1;
 		
-		pilot.setRotateSpeed(50);
-		pilot.rotate(direction * (angleToTurn + 30), true); // Make sure to turn AT LEAST angleToTurn °
+		pilot.setRotateSpeed(40);
+		pilot.rotate(direction * (angleToTurn + STOPPING_ANGLE_EPS), true); // Make sure to turn AT LEAST angleToTurn °
 
 		while (true) {
 			if (Math.abs(targetAngle - robot.sensors.getGyro()) < STOPPING_ANGLE_EPS) {
