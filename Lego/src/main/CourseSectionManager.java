@@ -18,8 +18,8 @@ public class CourseSectionManager {
 		this.currentSection = startingSection;
 		this.robot = new Robot();
 		this.pilot = new DifferentialPilot(30, 160, robot.motors.leftMotor, robot.motors.rightMotor, true);
-		robot.motors.hookMotor.setSpeed(350);
-		robot.motors.hookMotor.backward();
+		//robot.motors.hookMotor.setSpeed(350);
+		//robot.motors.hookMotor.backward();
 		switch (currentSection) {
 			case FOLLOW_LINE:
 				new LineFollowing(robot, pilot);
@@ -36,14 +36,14 @@ public class CourseSectionManager {
 			case FIND_COLOR:
 				new FindingColor(robot, pilot);
 				break;
-			case HOOK:
-				robot.motors.hookMotor.setSpeed(50);
-				robot.motors.hookMotor.backward();
-				pilot.setTravelSpeed(10);
-				pilot.travel(500);
-				while(true) {
-					
-				}
+			//case HOOK:
+			//	robot.motors.hookMotor.setSpeed(50);
+			//	robot.motors.hookMotor.backward();
+			//	pilot.setTravelSpeed(10);
+			//	pilot.travel(500);
+			//	while(true) {
+			//		
+			//	}
 				
 				
 			default:

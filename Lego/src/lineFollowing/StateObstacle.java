@@ -32,13 +32,14 @@ public class StateObstacle extends State {
 
 		// TODO Busy waiting didn't work previously here. If problems still occur, immediateReturn can be set to false
 		// TODO in pilot.rotate and the while loop can be removed, that did work in the past.
-		pilot.rotate(targetAngle);
-		/*while (true) {
+		pilot.rotate(targetAngle, true);
+		while (true) {
+			System.out.println(this.robot.sensors.getGyro());
 			if (Math.abs(targetAngle - this.robot.sensors.getGyro()) < StateRotate.STOPPING_ANGLE_EPS) {
 				pilot.stop();
 				break;
 			}
-		}*/
+		}
 	}
 
 	@Override
@@ -47,11 +48,11 @@ public class StateObstacle extends State {
 			Sound.playSample(new File("./blaster.wav"), 100);
 			this.robot.sensors.gyroReset();
 			turn(-90);
-			drive(800);
+			drive(1100);
 			turn(90);
 			drive(1850);
 			turn(90);
-			drive(750);
+			drive(1100);
 			turn(-100);
 			stateMachine.changeState(LineFollowing.ROTATE);
 		} catch (PortNotDefinedException e) {

@@ -17,12 +17,12 @@ public class Turn extends State {
 	
 	final static int MOVE_ACCELERATION = 2000;
 	final static int MOVE_SPEED = 150;
-	final static int STOPPING_ANGLE_EPS = 5;
+	final static int STOPPING_ANGLE_EPS = 3;
 	private boolean firstTurn;
 	private int lastTurnDirection;
 	private int currentRotation;
 	private final int durationDriveBack = 200;
-	private final int durationDriveForward = 300;
+	private final int durationDriveForward = 500;
 
 	public Turn(FindingColor stateMachine, DifferentialPilot pilot, Robot robot)
 	{
@@ -92,12 +92,6 @@ public class Turn extends State {
 		pilot.rotate(direction * (angleToTurn + 30), true); // Make sure to turn AT LEAST angleToTurn °
 
 		while (true) {
-			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
-				pilot.stop();
-				stateMachine.changeState(LineFollowing.FORWARD);
-				return true;
-			}
-
 			if (Math.abs(targetAngle - robot.sensors.getGyro()) < STOPPING_ANGLE_EPS) {
 				pilot.stop();
 				return false;

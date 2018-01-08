@@ -12,7 +12,7 @@ public class StateRotate extends State {
 	final static int FAST_SPEED = 80;
 
 	final static int TURN_ANGLE_EXTRA = 15;
-	final static int STOPPING_ANGLE_EPS = 5;
+	final static int STOPPING_ANGLE_EPS = 3;
 
 	// TODO: Move to robot
 	private boolean lastRotationLeft = true;
