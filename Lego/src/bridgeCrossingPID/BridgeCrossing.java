@@ -1,5 +1,6 @@
 package bridgeCrossingPID;
 
+import findColor.FindingColor;
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import robotcontrol.PortNotDefinedException;
@@ -47,15 +48,17 @@ public class BridgeCrossing {
 		pilot.travel(80);
 		
 		//drive up ramp 90% with pid
-		while (counter < 210) {
+		while (counter < 220) {
 			System.out.println(counter);
 			counter ++;
-			pidLoop(0.02f, 400, 1, 3000, 10, 0);
+			pidLoop(0.02f, 300, 1, 3000, 10, 0);
 		}
 		
 		//drive over black tape (blind)
 		pilot.setTravelSpeed(100);
 		pilot.travel(300, false);
+		
+		
 		
 		//drive to edge
 		pilot.setTravelSpeed(50);
@@ -71,31 +74,48 @@ public class BridgeCrossing {
 		
 		int longEdgeCounter = 0;
 		//drive along edge fast (PID)
-		while (longEdgeCounter < 320) {
+		while (longEdgeCounter < 350) {
 			longEdgeCounter++;
 			System.out.println(longEdgeCounter);
-			pidLoop(0.12f, 500, 0.7f, 1500, 0, 0);
+			pidLoop(0.12f, 500, 0.7f, 700, 0, 0);
 		}
-		System.out.println("SERACHING FOOR EDGE");
+		
 		//drive to edge
-		pilot.setTravelSpeed(50);
-		pilot.travel(300, true);
+		Sound.beepSequence();
+		
+//		int longEdgeCounter2 = 0;
+//		//drive along edge fast (PID)
+//		while (longEdgeCounter2 < 150) {
+//			longEdgeCounter2++;
+//			System.out.println(longEdgeCounter2);
+//			pidLoop(0.12f, 100, 0.7f, 1000, 0, 0);
+//		}
+		System.out.println("SERACHING FOOR EDGE");
+		pilot.travel(600, true);
 		while (robot.sensors.getColors()[0] > 0.01) {	
 		}
 		Sound.beepSequenceUp();
 		
-		pilot.travel(-90);
-		pilot.rotate(75);
+		pilot.travel(-160);
+		
+		
+		pilot.rotate(90, true);
+		robot.motors.headMotor.rotateTo(-230);
 		pilot.travel(250);
 		
 		counter = 0;
-		while (counter < 600) {
-			System.out.println(counter);
+		while (counter < 400) {
+			System.out.println(robot.sensors.getDistance());
 			counter ++;
-			pidLoop(0.02f, 100, 1, 1500, 10, 0);
+			pidLoop(0.04f, 50, -1, 2000, 10, 0);
 		}
 		Sound.beepSequence();
+		robot.motors.headMotor.rotateTo(0);
+		pilot.stop();
+		pilot.rotate(-15);
+		pilot.travel(250);
 		
+		new FindingColor(robot, pilot);
 		
 		
 	}
