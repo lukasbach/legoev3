@@ -29,7 +29,6 @@ public class FindFirstColor extends State {
 		pilot.setAcceleration(MOVE_ACCELERATION);
 		pilot.setTravelSpeed(MOVE_SPEED);
 		pilot.forward();
-		
 	}
 
 	@Override
@@ -37,27 +36,33 @@ public class FindFirstColor extends State {
 		if (robot.sensors.getTouch() != 0) {
 			stateMachine.changeState(FindingColor.TURN);
 		}
-		if (!foundRed && robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
-			Sound.beepSequenceUp();
-			foundRed = true;
-			//Sound.playSample(new File("R2D2N1.wav"));
-			if (foundWhite) {
-				pilot.stop();
-				Sound.beepSequenceUp();
-			}
-		}
-		if (!foundWhite && robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
-			Sound.beepSequenceUp();
-			//Sound.playSample(new File("R2D2N1.wav"));
-			foundWhite = true;
-			if (foundRed) {
-				pilot.stop();
-				Sound.beepSequenceUp();
-			}
-		}
 		
 		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_BLUE) {
 			stateMachine.changeState(FindingColor.TURN);
+			Sound.beepSequence();
+		}
+		
+		FindFirstColor.testColor(robot, pilot);
+	}
+	
+	static public void testColor(Robot robot, DifferentialPilot pilot) throws PortNotDefinedException {		
+		if (!FindFirstColor.foundRed && robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
+			Sound.beepSequenceUp();
+			FindFirstColor.foundRed = true;
+			//Sound.playSample(new File("R2D2N1.wav"));
+			if (FindFirstColor.foundWhite) {
+				pilot.stop();
+				Sound.beepSequenceUp();
+			}
+		}
+		else if (!FindFirstColor.foundWhite && robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
+			Sound.beepSequenceUp();
+			//Sound.playSample(new File("R2D2N1.wav"));
+			FindFirstColor.foundWhite = true;
+			if (FindFirstColor.foundRed) {
+				pilot.stop();
+				Sound.beepSequenceUp();
+			}
 		}
 	}
 
