@@ -82,42 +82,34 @@ public class BridgeCrossing {
 		
 		//drive to edge
 		Sound.beepSequence();
-		
-//		int longEdgeCounter2 = 0;
-//		//drive along edge fast (PID)
-//		while (longEdgeCounter2 < 150) {
-//			longEdgeCounter2++;
-//			System.out.println(longEdgeCounter2);
-//			pidLoop(0.12f, 100, 0.7f, 1000, 0, 0);
-//		}
 		System.out.println("SERACHING FOOR EDGE");
 		pilot.travel(600, true);
 		while (robot.sensors.getColors()[0] > 0.01) {	
 		}
 		Sound.beepSequenceUp();
 		
+		//Turn and Start driving down ramp
 		pilot.travel(-160);
-		
-		
 		pilot.rotate(90, true);
 		robot.motors.headMotor.rotateTo(-230);
 		pilot.travel(250);
 		
+		//Drive down ramp pid
 		counter = 0;
-		while (counter < 400) {
+		while (counter < 650) {
 			System.out.println(robot.sensors.getDistance());
 			counter ++;
 			pidLoop(0.04f, 50, -1, 2000, 10, 0);
 		}
+		
+		//Try to drive through hole in wall
 		Sound.beepSequence();
 		robot.motors.headMotor.rotateTo(0);
 		pilot.stop();
 		pilot.rotate(-15);
 		pilot.travel(250);
 		
-		new FindingColor(robot, pilot);
-		
-		
+		new FindingColor(robot, pilot);	
 	}
 	
 	private void pidLoop(float target, float motorSpeed, float correctionMultiplicator, int kP, int kI, int kD) throws PortNotDefinedException {
