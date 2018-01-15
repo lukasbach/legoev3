@@ -96,7 +96,7 @@ public class BridgeCrossing {
 		
 		//Drive down ramp pid
 		counter = 0;
-		while (counter < 650) {
+		while (counter < 800) {
 			System.out.println(robot.sensors.getDistance());
 			counter ++;
 			pidLoop(0.04f, 50, -1, 2000, 10, 0);
@@ -106,8 +106,8 @@ public class BridgeCrossing {
 		Sound.beepSequence();
 		robot.motors.headMotor.rotateTo(0);
 		pilot.stop();
-		pilot.rotate(-15);
-		pilot.travel(250);
+		pilot.rotate(-10);
+		pilot.travel(400);
 		
 		new FindingColor(robot, pilot);	
 	}
