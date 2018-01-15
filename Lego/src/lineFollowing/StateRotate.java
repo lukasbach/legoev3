@@ -1,5 +1,6 @@
 package lineFollowing;
 
+import labyrinth.Labyrinth;
 import lejos.robotics.navigation.DifferentialPilot;
 import main.State;
 import robotcontrol.PortNotDefinedException;
@@ -67,7 +68,12 @@ public class StateRotate extends State {
 				pilot.stop();
 				stateMachine.changeState(LineFollowing.FORWARD);
 				return true;
-			}
+			} else if (this.robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
+				// Go to labyrinth
+				stateMachine.stop();
+				new Labyrinth(robot, pilot);
+				return true;
+			} 
 
 			if (Math.abs(targetAngle - robot.sensors.getGyro()) < STOPPING_ANGLE_EPS) {
 				pilot.stop();

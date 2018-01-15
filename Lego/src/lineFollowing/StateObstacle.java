@@ -55,9 +55,9 @@ public class StateObstacle extends State {
 			turn(-90);
 			drive(1100);
 			turn(0);
-			drive(2000);
+			drive(1900);
 			turn(90);
-			drive(1100);
+			drive(1050);
 			turn(0);
 			stateMachine.changeState(LineFollowing.ROTATE);
 		} catch (PortNotDefinedException e) {
