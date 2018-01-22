@@ -23,7 +23,7 @@ public class StateObstacle extends State {
 		pilot.setAcceleration(StateForward.MOVE_ACCELERATION);
 		pilot.forward();
 		Delay.msDelay(timeMS);
-		pilot.stop();
+		pilot.quickStop();
 	}
 
 	private void turn(int targetAngle) throws PortNotDefinedException {
@@ -41,7 +41,7 @@ public class StateObstacle extends State {
 		while (true) {
 			System.out.println(this.robot.sensors.getGyro());
 			if (Math.abs(targetAngle - this.robot.sensors.getGyro()) < StateRotate.STOPPING_ANGLE_EPS) {
-				pilot.stop();
+				pilot.quickStop();
 				break;
 			}
 		}
@@ -55,7 +55,7 @@ public class StateObstacle extends State {
 			turn(-90);
 			drive(1100);
 			turn(0);
-			drive(1900);
+			drive(2000);
 			turn(90);
 			drive(1050);
 			turn(0);

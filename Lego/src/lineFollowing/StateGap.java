@@ -45,7 +45,7 @@ public class StateGap extends State {
 
 			Delay.msDelay(forwardTime);
 
-			pilot.stop();
+			pilot.quickStop();
 			if (turnSearch(1)) return;
 			if (turnSearch(-1)) return;
 		}
