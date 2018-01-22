@@ -101,8 +101,8 @@ public class BridgeCrossing {
 		Sound.beepSequenceUp();
 		
 		//Turn and Start driving down ramp
-		pilot.travel(-130);
-		pilot.rotate(97, true);
+		pilot.travel(-110);
+		pilot.rotate(95, true);
 		robot.motors.headMotor.rotateTo(-230);
 		pilot.travel(250);
 		
@@ -112,7 +112,7 @@ public class BridgeCrossing {
 			counter ++;
 			pidLoop(0.04f, 50, -1, 2000, 10, 0);
 		}
-		
+			
 		//Try to drive through hole in wall
 		Sound.beepSequence();
 		robot.motors.headMotor.rotateTo(0);
