@@ -45,14 +45,21 @@ public class BridgeCrossing {
 		init();
 		
 		//move up ramp a little bit for pid to work
-		pilot.travel(50);
+		pilot.travel(90);
 		
+		int initialTacho = robot.motors.leftMotor.getTachoCount();
+		System.out.println("init: " + initialTacho);
 		//drive up ramp 90% with pid
-		while (counter < 220) {
-			System.out.println(counter);
+		//while (counter < 220) {
+		while(Math.abs(robot.motors.leftMotor.getTachoCount() - initialTacho) < 2000) {
+			//System.out.println(Math.abs(robot.motors.leftMotor.getTachoCount() - initialTacho));
 			counter ++;
 			pidLoop(0.02f, 300, 1, 3000, 10, 0);
+		//}
 		}
+		System.out.println("init: " + initialTacho);
+		System.out.println(robot.motors.leftMotor.getTachoCount() - initialTacho);
+		Sound.twoBeeps();
 		
 		//drive over black tape (blind)
 		pilot.setTravelSpeed(100);
@@ -62,7 +69,7 @@ public class BridgeCrossing {
 		
 		//drive to edge
 		pilot.setTravelSpeed(50);
-		pilot.travel(300, true);
+		pilot.travel(1000, true);
 		while (robot.sensors.getColors()[0] > 0.01) {	
 		}
 		//detected edge
@@ -72,13 +79,18 @@ public class BridgeCrossing {
 		pilot.travel(-80);
 		pilot.rotate(100);
 		
-		int longEdgeCounter = 0;
-		//drive along edge fast (PID)
-		while (longEdgeCounter < 370) {
-			longEdgeCounter++;
-			System.out.println(longEdgeCounter);
+//		int longEdgeCounter = 0;
+//		//drive along edge fast (PID)
+//		while (longEdgeCounter < 350) {
+//			longEdgeCounter++;
+//			pidLoop(0.12f, 500, 0.7f, 700, 0, 0);
+//		}
+		initialTacho = robot.motors.leftMotor.getTachoCount();
+		while(Math.abs(robot.motors.leftMotor.getTachoCount() - initialTacho) < 4000) {
 			pidLoop(0.12f, 500, 0.7f, 700, 0, 0);
 		}
+		System.out.println("init: " + initialTacho);
+		System.out.println(robot.motors.leftMotor.getTachoCount() - initialTacho);
 		
 		//drive to edge
 		Sound.beepSequence();
@@ -89,15 +101,14 @@ public class BridgeCrossing {
 		Sound.beepSequenceUp();
 		
 		//Turn and Start driving down ramp
-		pilot.travel(-150);
-		pilot.rotate(90, true);
+		pilot.travel(-130);
+		pilot.rotate(97, true);
 		robot.motors.headMotor.rotateTo(-230);
 		pilot.travel(250);
 		
 		//Drive down ramp pid
 		counter = 0;
 		while (counter < 950) {
-			System.out.println(robot.sensors.getDistance());
 			counter ++;
 			pidLoop(0.04f, 50, -1, 2000, 10, 0);
 		}
