@@ -16,7 +16,7 @@ public class CourseSectionStateMachine {
 	private boolean running = true;
 
 	protected CourseSectionStateMachine() {
-		Sound.playSample(new File("./jabbathehut.wav"), 100);
+		//Sound.playSample(new File("./jabbathehut.wav"), 100);
 	}
 
 	protected void run() {

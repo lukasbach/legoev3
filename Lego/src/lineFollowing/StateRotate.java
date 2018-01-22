@@ -13,7 +13,7 @@ public class StateRotate extends State {
 	final static int FAST_SPEED = 90;
 
 	final static int TURN_ANGLE_EXTRA = 15;
-	final static int STOPPING_ANGLE_EPS = 3;
+	final static int STOPPING_ANGLE_EPS = 7;
 
 	// TODO: Move to robot
 	private boolean lastRotationLeft = true;
@@ -47,11 +47,11 @@ public class StateRotate extends State {
 		
 		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 30)) return;
 		rotationDirection *= -1;
-		if (turnAndSearch(FAST_SPEED, 30)) return;
+		if (turnAndSearch(FAST_SPEED, rotationDirection * 30)) return;
 
 		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
 		rotationDirection *= -1;
-		if (turnAndSearch(FAST_SPEED, 30)) return;
+		if (turnAndSearch(FAST_SPEED, rotationDirection * 30)) return;
 		
 		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
 		rotationDirection *= -1;

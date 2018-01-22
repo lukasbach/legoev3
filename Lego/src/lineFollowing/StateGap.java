@@ -53,6 +53,7 @@ public class StateGap extends State {
 
 	@Override
 	public void init() {
+		//Sound.playSample(new File("./artoo6.wav"), 100);
 	}
 
 	private boolean turnSearch(int direction) {
