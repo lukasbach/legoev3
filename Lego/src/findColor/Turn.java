@@ -22,7 +22,7 @@ public class Turn extends State {
 	private int lastTurnDirection;
 	private int currentRotation;
 	private final int durationDriveBack = 300;
-	private final int durationDriveForward = 500;
+	private final int durationDriveForward = 400;
 
 	public Turn(FindingColor stateMachine, DifferentialPilot pilot, Robot robot)
 	{

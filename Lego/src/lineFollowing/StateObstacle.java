@@ -55,7 +55,7 @@ public class StateObstacle extends State {
 			turn(-90);
 			drive(1100);
 			turn(0);
-			drive(1900);
+			drive(2000);
 			turn(90);
 			drive(1050);
 			turn(0);
