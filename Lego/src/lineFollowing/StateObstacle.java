@@ -39,7 +39,6 @@ public class StateObstacle extends State {
 		// TODO in pilot.rotate and the while loop can be removed, that did work in the past.
 		pilot.rotate(turningAngle, true);
 		while (true) {
-			System.out.println(this.robot.sensors.getGyro());
 			if (Math.abs(targetAngle - this.robot.sensors.getGyro()) < StateRotate.STOPPING_ANGLE_EPS) {
 				pilot.quickStop();
 				break;
@@ -52,10 +51,20 @@ public class StateObstacle extends State {
 		try {
 			//Sound.playSample(new File("./blaster.wav"), 100);
 			this.robot.sensors.gyroReset();
+			
+			System.out.println(lejos.hardware.ev3.LocalEV3.get().getPower().getVoltage());
+			
+			
 			turn(-90);
 			drive(1100);
 			turn(0);
-			drive(2000);
+			if (lejos.hardware.ev3.LocalEV3.get().getPower().getVoltage() > 7.3) {
+				// battery is more or less full
+				drive(1800);
+			} else {
+				Sound.buzz();
+				drive(2000);
+			}
 			turn(90);
 			drive(1050);
 			turn(0);
