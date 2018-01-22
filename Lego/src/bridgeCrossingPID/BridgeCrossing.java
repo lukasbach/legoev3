@@ -44,8 +44,8 @@ public class BridgeCrossing {
 		int counter = 0;
 		init();
 		
-		//move up ramp a little bit for pid tró work
-		pilot.travel(80);
+		//move up ramp a little bit for pid to work
+		pilot.travel(50);
 		
 		//drive up ramp 90% with pid
 		while (counter < 220) {
@@ -74,7 +74,7 @@ public class BridgeCrossing {
 		
 		int longEdgeCounter = 0;
 		//drive along edge fast (PID)
-		while (longEdgeCounter < 350) {
+		while (longEdgeCounter < 370) {
 			longEdgeCounter++;
 			System.out.println(longEdgeCounter);
 			pidLoop(0.12f, 500, 0.7f, 700, 0, 0);
@@ -89,14 +89,14 @@ public class BridgeCrossing {
 		Sound.beepSequenceUp();
 		
 		//Turn and Start driving down ramp
-		pilot.travel(-160);
+		pilot.travel(-150);
 		pilot.rotate(90, true);
 		robot.motors.headMotor.rotateTo(-230);
 		pilot.travel(250);
 		
 		//Drive down ramp pid
 		counter = 0;
-		while (counter < 800) {
+		while (counter < 950) {
 			System.out.println(robot.sensors.getDistance());
 			counter ++;
 			pidLoop(0.04f, 50, -1, 2000, 10, 0);
