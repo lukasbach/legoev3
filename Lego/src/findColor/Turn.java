@@ -114,7 +114,7 @@ public class Turn extends State {
 			System.out.println("" + Math.floor(robot.sensors.getGyro() % 360) + ", " + Math.floor(currentRotation));
 			
 			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
-				Sound.playSample(new File("R2D2N1.wav"));
+				//Sound.playSample(new File("R2D2N1.wav"));
 				Sound.beepSequenceUp();
 				FindFirstColor.foundRed = true;
 				if (FindFirstColor.foundWhite)  {
@@ -124,7 +124,7 @@ public class Turn extends State {
 				return true;
 			}
 			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
-				Sound.playSample(new File("R2D2N1.wav"));
+				//Sound.playSample(new File("R2D2N1.wav"));
 				FindFirstColor.foundWhite = true;
 				Sound.beepSequenceUp();
 				if (FindFirstColor.foundRed){

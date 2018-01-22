@@ -45,7 +45,6 @@ public class CourseSectionManager {
 			//		
 			//	}
 				
-				
 			default:
 				Sound.beepSequence();
 				throw new InternalError("Menue is immernoch am Arsch");

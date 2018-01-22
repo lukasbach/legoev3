@@ -50,7 +50,7 @@ public class StateObstacle extends State {
 	@Override
 	public void init() {
 		try {
-			Sound.playSample(new File("./blaster.wav"), 100);
+			//Sound.playSample(new File("./blaster.wav"), 100);
 			this.robot.sensors.gyroReset();
 			turn(-90);
 			drive(1100);
