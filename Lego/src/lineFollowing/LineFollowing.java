@@ -20,7 +20,6 @@ public class LineFollowing extends CourseSectionStateMachine {
 		states[2] = new StateGap(this, pilot, robot);
 		states[3] = new StateObstacle(this, pilot, robot);
 		setStates(states);
-		run();
 	}
 
 

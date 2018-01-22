@@ -19,7 +19,6 @@ public class BridgeCrossing extends CourseSectionStateMachine {
 		//states[2] =
 		// ...
 		setStates(states);
-		run();
 	}
 
 }

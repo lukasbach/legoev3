@@ -135,18 +135,18 @@ public class SensorWrapper {
 			
 			
 			if (checkColor(supposedLine, colors, 0.07f)) {
-				System.out.println("LINE");
+			//	System.out.println("LINE");
 				return SensorWrapper.COLOR_ID_LINE;
 			} else if (checkColor(supposedGround, colors, 0.04f)) {
-				System.out.println("GROUND");
+				//System.out.println("GROUND");
 				return SensorWrapper.COLOR_ID_GROUND;
 			} else if (checkColor(supposedBlue, colors, 0.05f)) {
-				System.out.println("BLUE");
+				//System.out.println("BLUE");
 				
 			
 				return SensorWrapper.COLOR_ID_BLUE;
 			} else if (checkColor(supposedRed, colors, 0.1f)) {
-				System.out.println("RED");
+				//System.out.println("RED");
 				return SensorWrapper.COLOR_ID_RED;
 			} else {
 				/*Sound.playTone(200, 30);
@@ -158,7 +158,7 @@ public class SensorWrapper {
 				Sound.playTone(200, 30);
 				Delay.msDelay(10);
 				Sound.playTone(200, 30);*/
-				System.out.println("NOTHING");
+				//System.out.println("NOTHING");
 				return -1;
 			}
 			

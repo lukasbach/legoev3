@@ -3,10 +3,11 @@ package bridgeCrossingPID;
 import findColor.FindingColor;
 import lejos.hardware.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
+import main.CourseSectionStateMachine;
 import robotcontrol.PortNotDefinedException;
 import robotcontrol.Robot;
 
-public class BridgeCrossing {
+public class BridgeCrossing extends CourseSectionStateMachine {
 
 	private Robot robot;
 	private DifferentialPilot pilot;
@@ -31,85 +32,84 @@ public class BridgeCrossing {
 	public BridgeCrossing(Robot robot, DifferentialPilot pilot) {
 		this.pilot = pilot;
 		this.robot = robot;
-		try {
-			run();
-		} catch (PortNotDefinedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	
-	private void run() throws PortNotDefinedException {
-		int counter = 0;
-		init();
-		
-		//move up ramp a little bit for pid tró work
-		pilot.travel(80);
-		
-		//drive up ramp 90% with pid
-		while (counter < 220) {
-			System.out.println(counter);
-			counter ++;
-			pidLoop(0.02f, 300, 1, 3000, 10, 0);
-		}
-		
-		//drive over black tape (blind)
-		pilot.setTravelSpeed(100);
-		pilot.travel(300, false);
-		
-		
-		
-		//drive to edge
-		pilot.setTravelSpeed(50);
-		pilot.travel(300, true);
-		while (robot.sensors.getColors()[0] > 0.01) {	
-		}
-		//detected edge
-		Sound.beepSequenceUp();
-		
-		//rotate
-		pilot.travel(-80);
-		pilot.rotate(100);
-		
-		int longEdgeCounter = 0;
-		//drive along edge fast (PID)
-		while (longEdgeCounter < 350) {
-			longEdgeCounter++;
-			System.out.println(longEdgeCounter);
-			pidLoop(0.12f, 500, 0.7f, 700, 0, 0);
-		}
-		
-		//drive to edge
-		Sound.beepSequence();
-		System.out.println("SERACHING FOOR EDGE");
-		pilot.travel(600, true);
-		while (robot.sensors.getColors()[0] > 0.01) {	
-		}
-		Sound.beepSequenceUp();
-		
-		//Turn and Start driving down ramp
-		pilot.travel(-160);
-		pilot.rotate(90, true);
-		robot.motors.headMotor.rotateTo(-230);
-		pilot.travel(250);
-		
-		//Drive down ramp pid
-		counter = 0;
-		while (counter < 800) {
-			System.out.println(robot.sensors.getDistance());
-			counter ++;
-			pidLoop(0.04f, 50, -1, 2000, 10, 0);
-		}
-		
-		//Try to drive through hole in wall
-		Sound.beepSequence();
-		robot.motors.headMotor.rotateTo(0);
-		pilot.stop();
-		pilot.rotate(-10);
-		pilot.travel(400);
-		
+	protected void run() {
+		try {
+			
+			int counter = 0;
+			init();
+			
+			//move up ramp a little bit for pid tró work
+			pilot.travel(80);
+			
+			//drive up ramp 90% with pid
+			while (counter < 220) {
+				System.out.println(counter);
+				counter ++;
+				pidLoop(0.02f, 300, 1, 3000, 10, 0);
+			}
+			
+			//drive over black tape (blind)
+			pilot.setTravelSpeed(100);
+			pilot.travel(300, false);
+			
+			
+			
+			//drive to edge
+			pilot.setTravelSpeed(50);
+			pilot.travel(300, true);
+			while (robot.sensors.getColors()[0] > 0.01) {	
+			}
+			//detected edge
+			Sound.beepSequenceUp();
+			
+			//rotate
+			pilot.travel(-80);
+			pilot.rotate(100);
+			
+			int longEdgeCounter = 0;
+			//drive along edge fast (PID)
+			while (longEdgeCounter < 350) {
+				longEdgeCounter++;
+				System.out.println(longEdgeCounter);
+				pidLoop(0.12f, 500, 0.7f, 700, 0, 0);
+			}
+			
+			//drive to edge
+			Sound.beepSequence();
+			System.out.println("SERACHING FOOR EDGE");
+			pilot.travel(600, true);
+			while (robot.sensors.getColors()[0] > 0.01) {	
+			}
+			Sound.beepSequenceUp();
+			
+			//Turn and Start driving down ramp
+			pilot.travel(-160);
+			pilot.rotate(90, true);
+			robot.motors.headMotor.rotateTo(-230);
+			pilot.travel(250);
+			
+			//Drive down ramp pid
+			counter = 0;
+			while (counter < 800) {
+				System.out.println(robot.sensors.getDistance());
+				counter ++;
+				pidLoop(0.04f, 50, -1, 2000, 10, 0);
+			}
+			
+			//Try to drive through hole in wall
+			Sound.beepSequence();
+			robot.motors.headMotor.rotateTo(0);
+			pilot.stop();
+			pilot.rotate(-10);
+			pilot.travel(400);
+			
 		new FindingColor(robot, pilot);	
+		} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 	}
 	
 	private void pidLoop(float target, float motorSpeed, float correctionMultiplicator, int kP, int kI, int kD) throws PortNotDefinedException {

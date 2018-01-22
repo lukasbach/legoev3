@@ -1,7 +1,7 @@
 package main;
 
 public enum CourseSections {
-	FOLLOW_LINE, LABYRINTH, HOOK, BRIDGE, FIND_COLOR;
+	FOLLOW_LINE, LABYRINTH, BRIDGE, FIND_COLOR;
 
 	public static String[] names() {
 		CourseSections[] sections = values();

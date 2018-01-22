@@ -22,7 +22,6 @@ public class Labyrinth extends CourseSectionStateMachine {
 		//states[2] =
 		// ...
 		setStates(states);
-		run();
 	}
 
 }

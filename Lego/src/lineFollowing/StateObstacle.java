@@ -39,7 +39,7 @@ public class StateObstacle extends State {
 		// TODO in pilot.rotate and the while loop can be removed, that did work in the past.
 		pilot.rotate(turningAngle, true);
 		while (true) {
-			System.out.println(this.robot.sensors.getGyro());
+		//	System.out.println(this.robot.sensors.getGyro());
 			if (Math.abs(targetAngle - this.robot.sensors.getGyro()) < StateRotate.STOPPING_ANGLE_EPS) {
 				pilot.stop();
 				break;
