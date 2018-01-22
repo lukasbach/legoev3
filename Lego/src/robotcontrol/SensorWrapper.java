@@ -142,6 +142,9 @@ public class SensorWrapper {
 				return SensorWrapper.COLOR_ID_GROUND;
 			} else if (checkColor(supposedBlue, colors, 0.035f)) {
 				System.out.println("BLUE");			
+				Sound.playNote(Sound.FLUTE, 200, 200);
+				Sound.playNote(Sound.FLUTE, 300, 200);
+				Sound.playNote(Sound.FLUTE, 400, 200);
 				return SensorWrapper.COLOR_ID_BLUE;
 			} else if (checkColor(supposedRed, colors, 0.1f)) {
 				System.out.println("RED");
