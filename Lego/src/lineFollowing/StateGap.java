@@ -45,7 +45,7 @@ public class StateGap extends State {
 
 			Delay.msDelay(forwardTime);
 
-			pilot.stop();
+			pilot.quickStop();
 			if (turnSearch(1)) return;
 			if (turnSearch(-1)) return;
 		}
@@ -53,7 +53,6 @@ public class StateGap extends State {
 
 	@Override
 	public void init() {
-		Sound.playSample(new File("./artoo6.wav"), 100);
 	}
 
 	private boolean turnSearch(int direction) {

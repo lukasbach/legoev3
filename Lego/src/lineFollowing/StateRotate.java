@@ -9,8 +9,8 @@ import robotcontrol.SensorWrapper;
 
 public class StateRotate extends State {
 
-	final static int SEARCH_SPEED = 35;
-	final static int FAST_SPEED = 80;
+	final static int SEARCH_SPEED = 43;
+	final static int FAST_SPEED = 90;
 
 	final static int TURN_ANGLE_EXTRA = 15;
 	final static int STOPPING_ANGLE_EPS = 3;
@@ -29,7 +29,7 @@ public class StateRotate extends State {
 	@Override
 	public void init() {
 		// Resetting Gyro angles. Robot needs to be stationary for that.
-		pilot.stop();
+		pilot.quickStop();
 		try {
 			robot.sensors.gyroReset();
 		} catch (PortNotDefinedException e) {
@@ -41,10 +41,18 @@ public class StateRotate extends State {
 	@Override
 	public void run() throws PortNotDefinedException {
 
-		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
+		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 30)) return;
 		rotationDirection *= -1;
 		if (turnAndSearch(FAST_SPEED, 0)) return;
+		
+		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 30)) return;
+		rotationDirection *= -1;
+		if (turnAndSearch(FAST_SPEED, 30)) return;
 
+		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
+		rotationDirection *= -1;
+		if (turnAndSearch(FAST_SPEED, 30)) return;
+		
 		if (turnAndSearch(SEARCH_SPEED, rotationDirection * 90)) return;
 		rotationDirection *= -1;
 		if (turnAndSearch(FAST_SPEED, 0)) return;
@@ -65,7 +73,7 @@ public class StateRotate extends State {
 
 		while (true) {
 			if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE) {
-				pilot.stop();
+				pilot.quickStop();
 				stateMachine.changeState(LineFollowing.FORWARD);
 				return true;
 			} else if (this.robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
@@ -76,7 +84,7 @@ public class StateRotate extends State {
 			} 
 
 			if (Math.abs(targetAngle - robot.sensors.getGyro()) < STOPPING_ANGLE_EPS) {
-				pilot.stop();
+				pilot.quickStop();
 				return false;
 			}
 		}

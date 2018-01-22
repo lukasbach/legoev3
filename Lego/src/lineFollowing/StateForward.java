@@ -44,7 +44,7 @@ public class StateForward extends State {
 
 	@Override
 	public void leave() {
-		pilot.stop();
+		pilot.quickStop();
 	}
 
 }
