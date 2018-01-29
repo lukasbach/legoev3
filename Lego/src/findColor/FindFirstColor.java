@@ -13,7 +13,7 @@ import robotcontrol.SensorWrapper;
 public class FindFirstColor extends State {
 	
 	final static int MOVE_ACCELERATION = 2000;
-	final static int MOVE_SPEED = 150;
+	final static int MOVE_SPEED = 170;
 	public static boolean foundWhite;
 	public static boolean foundRed;
 
