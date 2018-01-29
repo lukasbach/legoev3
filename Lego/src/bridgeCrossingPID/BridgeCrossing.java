@@ -101,29 +101,24 @@ public class BridgeCrossing {
 		Sound.beepSequenceUp();
 		
 		//Turn and Start driving down ramp
-		pilot.travel(-110);
+		pilot.travel(-100);
 		pilot.rotate(95, true);
-		robot.motors.headMotor.rotateTo(-240);
-		pilot.travel(250);
+		robot.motors.headMotor.rotateTo(-230);
+		robot.motors.headMotor.rotateTo(0);
+		pilot.travel(800);
 		
 		//Drive down ramp pid
-		initialTacho = robot.motors.leftMotor.getTachoCount();
-		Sound.beep();
-		Sound.twoBeeps();
-		Sound.playTone(580, 2000, 30);
-		
-		while(Math.abs(robot.motors.leftMotor.getTachoCount() - initialTacho) < 800) {
 //		counter = 0;
 //		while (counter < 950) {
 //			counter ++;
-			pidLoop(0.04f, 50, -1, 2000, 10, 0);
-		}
+//			pidLoop(0.04f, 50, -1, 2000, 10, 0);
+//		}
 			
 		//Try to drive through hole in wall
 		Sound.beepSequence();
-		pilot.stop();
-		robot.motors.headMotor.rotateTo(0);
-		pilot.rotate(-8);
+		
+//		pilot.stop();
+//		pilot.rotate(-10);
 		pilot.travel(400);
 		
 		new FindingColor(robot, pilot);	
