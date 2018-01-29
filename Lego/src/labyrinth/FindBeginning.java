@@ -58,13 +58,20 @@ public class FindBeginning extends State {
 			pilot.setTravelSpeed(MOVE_SPEED);
 			pilot.forward();
 			Delay.msDelay(100);*/
-			currentSpeed /= 3;
+			currentSpeed /= 6;
 			this.foundBlue = true;
+			//pilot.stop();
 			pilot.setTravelSpeed(currentSpeed);
+			//pilot.forward();
 		}
-		if (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE || robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED) {
+		if (this.foundBlue && (robot.sensors.getColor() == SensorWrapper.COLOR_ID_LINE || robot.sensors.getColor() == SensorWrapper.COLOR_ID_RED)) {
 			pilot.quickStop();
 			stateMachine.changeState(Labyrinth.FOLLOW_LINE);
+		}
+		if (this.foundBlue && robot.sensors.getTouch() > 0) {
+			pilot.travel(-250);
+			pilot.rotate(-1100);
+			pilot.forward();
 		}
 	}
 	

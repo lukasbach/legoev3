@@ -72,7 +72,7 @@ public class FollowLine extends State {
 				counter = counter + 1;//counter > 50 ? 50 : counter + 1;
 			}
 			
-			motorSpeed = counter > 10 ? 0 : 150f;
+			motorSpeed = counter > 6 ? 0 : 150f;
 			
 			
 			 float leftMotorSpeed = (float) (motorSpeed + correction);
