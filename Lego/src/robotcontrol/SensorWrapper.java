@@ -140,7 +140,7 @@ public class SensorWrapper {
 			} else if (checkColor(supposedGround, colors, 0.04f)) {
 				System.out.println("GROUND");
 				return SensorWrapper.COLOR_ID_GROUND;
-			} else if (checkColor(supposedBlue, colors, 0.035f)) {
+			} else if (checkColor(supposedBlue, colors, 0.03f)) {
 				System.out.println("BLUE");			
 				return SensorWrapper.COLOR_ID_BLUE;
 			} else if (checkColor(supposedRed, colors, 0.1f)) {

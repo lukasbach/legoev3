@@ -58,7 +58,7 @@ public class FindBeginning extends State {
 			pilot.setTravelSpeed(MOVE_SPEED);
 			pilot.forward();
 			Delay.msDelay(100);*/
-			currentSpeed /= 3;
+			currentSpeed /= 6;
 			this.foundBlue = true;
 			pilot.setTravelSpeed(currentSpeed);
 		}
