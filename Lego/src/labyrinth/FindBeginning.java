@@ -58,7 +58,7 @@ public class FindBeginning extends State {
 			pilot.setTravelSpeed(MOVE_SPEED);
 			pilot.forward();
 			Delay.msDelay(100);*/
-			currentSpeed /= 6;
+			currentSpeed /= 3;
 			this.foundBlue = true;
 			//pilot.stop();
 			pilot.setTravelSpeed(currentSpeed);
@@ -70,7 +70,7 @@ public class FindBeginning extends State {
 		}
 		if (this.foundBlue && robot.sensors.getTouch() > 0) {
 			pilot.travel(-250);
-			pilot.rotate(-1100);
+			pilot.rotate(-120);
 			pilot.forward();
 		}
 	}
